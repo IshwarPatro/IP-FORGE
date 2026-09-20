@@ -11,6 +11,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from forge.config import settings, setup_logger
 from forge.rag.vector_store import get_vector_store, SearchResult
+from forge.orchestrator.coordinator import get_coordinator
+from forge.orchestrator.state import EngineeringPlan
 
 logger = setup_logger("forge.api.main")
 
@@ -148,4 +150,27 @@ def query_architecture(request: ArchitectureQueryRequest):
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Query failed: {str(exc)}"
+        )
+
+
+class PlanTaskRequest(BaseModel):
+    task: str = Field(..., description="High-level engineering task description.")
+    top_k: int = Field(default=5, ge=1, le=15, description="Number of AST symbols to retrieve for context.")
+
+
+@app.post("/plan-task", response_model=EngineeringPlan, tags=["Planning & Orchestration"])
+def plan_task(request: PlanTaskRequest):
+    """
+    Ingests a developer task, investigates codebase architecture via AST RAG,
+    and returns a structured, verified engineering plan.
+    """
+    try:
+        coordinator = get_coordinator()
+        plan = coordinator.create_plan_for_task(task=request.task, top_k=request.top_k)
+        return plan
+    except Exception as exc:
+        logger.error(f"Task planning failed for '{request.task}': {exc}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Planning failed: {str(exc)}"
         )
