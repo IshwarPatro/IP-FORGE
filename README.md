@@ -35,7 +35,8 @@ All foundational engineering specifications are organized in the [`docs/`](./doc
 * 📄 [Architectural Details](./docs/project_detail.md) — Multi-agent roles, RAG layer, MCP tools, and governance.
 * 📄 [Environment & Setup](./docs/setup.md) — Hybrid infrastructure (M4 Mac + AMD ROCm Cloud) and tech stack.
 * 📄 [Implementation Roadmap](./docs/phasewise_instruction.md) — Sequential 6-phase engineering plan.
-* 📁 [Project Understanding](./docs/project_understanding/) — Milestone-by-milestone technical deep dives and 10-Q&A defense sheets.
+* 📄 [Master Setup & Blueprint](./docs/master_setup_and_implementation_plan.md) — Comprehensive architecture and phase-by-phase implementation plan.
+* 📁 [Project Understanding](./docs/project_understanding/) — Milestone-by-milestone technical deep dives and 10-Q&A defense sheets (including [01: Master Architecture Defense](./docs/project_understanding/01_master_architecture_and_roadmap.md)).
 
 ---
 
