@@ -6,6 +6,7 @@ Exposes architecture query, repository indexing, and multi-agent endpoints.
 from typing import List, Optional
 from pathlib import Path
 from fastapi import FastAPI, HTTPException, status
+from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from forge.config import settings, setup_logger
@@ -69,6 +70,12 @@ class HealthResponse(BaseModel):
 # ------------------------------------------------------------------------------
 # Endpoints
 # ------------------------------------------------------------------------------
+
+@app.get("/", include_in_schema=False)
+def root_redirect():
+    """Redirect root path directly to interactive API documentation."""
+    return RedirectResponse(url="/docs")
+
 
 @app.get("/health", response_model=HealthResponse, tags=["System"])
 def health_check():
