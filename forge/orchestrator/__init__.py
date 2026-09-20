@@ -11,9 +11,17 @@ def get_coordinator():
     return _get_coordinator()
 
 
+def get_autonomous_loop():
+    """Lazy getter for AutonomousLoop to prevent circular import."""
+    from forge.orchestrator.loop import get_autonomous_loop as _get_loop
+    return _get_loop()
+
+
 __all__ = [
     "PlanStep",
     "EngineeringPlan",
     "AgentState",
     "get_coordinator",
+    "get_autonomous_loop",
 ]
+

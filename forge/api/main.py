@@ -199,3 +199,65 @@ def execute_mcp_tool(request: ExecuteToolRequest):
     server = get_mcp_server()
     result = server.call_tool(name=request.tool_name, arguments=request.arguments)
     return result
+
+
+# ------------------------------------------------------------------------------
+# Autonomous Self-Healing Loop Endpoints
+# ------------------------------------------------------------------------------
+
+class ExecuteTaskRequest(BaseModel):
+    task: str = Field(..., description="High-level software engineering task.")
+    target_file: Optional[str] = Field(default=None, description="Optional target file to modify/heal.")
+    test_command: Optional[str] = Field(default=None, description="Optional custom test command.")
+    create_branch: bool = Field(default=True, description="Whether to checkout an isolated git task branch.")
+    max_retries: int = Field(default=3, ge=1, le=5, description="Maximum self-healing retry iterations.")
+
+
+class ExecuteTaskResponse(BaseModel):
+    session_id: str
+    task: str
+    status: str
+    tests_passed: bool
+    iterations_used: int
+    git_branch: Optional[str] = None
+    git_diff: Optional[str] = None
+    audit_trail: List[str]
+
+
+@app.post("/execute-task", response_model=ExecuteTaskResponse, tags=["Autonomous Self-Healing Loop"])
+def execute_task(request: ExecuteTaskRequest):
+    """
+    Executes a complete closed-loop engineering task:
+    1. Plans DAG via Planner + Architect Agents
+    2. Isolates work on a dedicated Git branch
+    3. Executes code modifications via MCP tools
+    4. Runs tests via Test Agent
+    5. Self-heals up to 3 iterations via Debugger Agent if tests fail
+    6. Conducts security review and formats PR markdown via Reviewer Agent
+    """
+    try:
+        from forge.orchestrator.loop import get_autonomous_loop
+        loop = get_autonomous_loop()
+        state = loop.run(
+            task=request.task,
+            target_file=request.target_file,
+            test_command=request.test_command,
+            create_branch=request.create_branch
+        )
+        return ExecuteTaskResponse(
+            session_id=state.session_id,
+            task=state.task,
+            status=state.status,
+            tests_passed=state.tests_passed,
+            iterations_used=state.retry_count,
+            git_branch=state.git_branch,
+            git_diff=state.git_diff,
+            audit_trail=state.audit_trail
+        )
+    except Exception as exc:
+        logger.error(f"Task execution failed: {exc}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Task execution failed: {str(exc)}"
+        )
+

@@ -5,7 +5,7 @@ Strictly typed data schemas representing agent execution state, planning DAGs, a
 
 from typing import List, Dict, Optional, Literal, Any
 from pydantic import BaseModel, Field
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class PlanStep(BaseModel):
@@ -31,7 +31,7 @@ class EngineeringPlan(BaseModel):
     files_to_modify: List[str] = Field(description="Unique list of files that will be touched")
     steps: List[PlanStep] = Field(description="Ordered sequence of execution steps")
     verification_strategy: str = Field(description="How changes will be tested and verified")
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
 class AgentState(BaseModel):
@@ -46,11 +46,13 @@ class AgentState(BaseModel):
     tests_passed: bool = False
     retry_count: int = 0
     max_retries: int = 3
-    is_approved: bool = False
+    git_branch: Optional[str] = None
+    git_diff: Optional[str] = None
     audit_trail: List[str] = Field(default_factory=list)
-    status: Literal["planning", "coding", "testing", "debugging", "reviewing", "completed", "failed"] = "planning"
+    status: Literal["planning", "coding", "testing", "debugging", "reviewing", "completed", "failed", "escalate_to_human"] = "planning"
 
     def record_event(self, event: str):
         """Appends timestamped log entry to the agent audit trail."""
-        timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
         self.audit_trail.append(f"[{timestamp}] {event}")
+

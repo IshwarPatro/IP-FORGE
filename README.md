@@ -36,7 +36,13 @@ All foundational engineering specifications are organized in the [`docs/`](./doc
 * 📄 [Environment & Setup](./docs/setup.md) — Hybrid infrastructure (M4 Mac + AMD ROCm Cloud) and tech stack.
 * 📄 [Implementation Roadmap](./docs/phasewise_instruction.md) — Sequential 6-phase engineering plan.
 * 📄 [Master Setup & Blueprint](./docs/master_setup_and_implementation_plan.md) — Comprehensive architecture and phase-by-phase implementation plan.
-* 📁 [Project Understanding](./docs/project_understanding/) — Milestone-by-milestone technical deep dives and 10-Q&A defense sheets (e.g. [01: Master Architecture](./docs/project_understanding/01_master_architecture_and_roadmap.md), [02: Phase 0 Infrastructure](./docs/project_understanding/02_phase0_infrastructure_and_foundations.md), [03: Phase 1 AST RAG](./docs/project_understanding/03_phase1_ast_rag_layer.md), [04: Phase 2 Agent Reasoning](./docs/project_understanding/04_phase2_agent_reasoning_and_orchestration.md), [05: Phase 3 MCP Tooling](./docs/project_understanding/05_phase3_mcp_tooling_subsystem.md)).
+* 📁 [Project Understanding](./docs/project_understanding/) — Milestone-by-milestone technical deep dives and 10-Q&A defense sheets:
+  * [01: Master Architecture](./docs/project_understanding/01_master_architecture_and_roadmap.md)
+  * [02: Phase 0 Infrastructure & Foundations](./docs/project_understanding/02_phase0_infrastructure_and_foundations.md)
+  * [03: Phase 1 AST RAG Layer](./docs/project_understanding/03_phase1_ast_rag_layer.md)
+  * [04: Phase 2 Agent Reasoning & Planning](./docs/project_understanding/04_phase2_agent_reasoning_and_orchestration.md)
+  * [05: Phase 3 MCP Tooling Subsystem](./docs/project_understanding/05_phase3_mcp_tooling_subsystem.md)
+  * [06: Phase 4 Self-Healing Engineering Loop](./docs/project_understanding/06_phase4_self_healing_engineering_loop.md)
 
 ---
 
@@ -47,7 +53,7 @@ All foundational engineering specifications are organized in the [`docs/`](./doc
 * Docker & Docker Compose (for Redis and PostgreSQL)
 * Ollama (local prototyping) or AMD Developer Cloud instance with ROCm + vLLM
 
-### Quick Setup
+### Quick Setup & Interactive Demos
 ```bash
 # 1. Clone the repository
 git clone https://github.com/IshwarPatro/IP-FORGE.git
@@ -56,10 +62,18 @@ cd IP-FORGE
 # 2. Set up Python virtual environment
 python3 -m venv venv
 source venv/bin/activate
+pip install -r requirements.txt
 
-# 3. Install core dependencies
-pip install fastapi uvicorn chromadb langchain openai
+# 3. Run complete automated test suite (32 tests across all phases)
+pytest tests/ -v
+
+# 4. Run interactive demos
+python scripts/demo_rag.py              # Phase 1: AST Codebase Intelligence
+python scripts/demo_planner.py          # Phase 2: Multi-Agent Reasoning DAG
+python scripts/demo_mcp.py              # Phase 3: Sandboxed MCP Tools
+python scripts/demo_autonomous_loop.py  # Phase 4: Self-Healing Closed Loop
 ```
+
 
 ---
 
