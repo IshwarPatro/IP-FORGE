@@ -13,6 +13,7 @@ from forge.config import settings, setup_logger
 from forge.rag.vector_store import get_vector_store, SearchResult
 from forge.orchestrator.coordinator import get_coordinator
 from forge.orchestrator.state import EngineeringPlan
+from forge.mcp.server import get_mcp_server, ToolDefinition, ToolResult
 
 logger = setup_logger("forge.api.main")
 
@@ -174,3 +175,27 @@ def plan_task(request: PlanTaskRequest):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Planning failed: {str(exc)}"
         )
+
+
+# ------------------------------------------------------------------------------
+# Model Context Protocol (MCP) Endpoints
+# ------------------------------------------------------------------------------
+
+class ExecuteToolRequest(BaseModel):
+    tool_name: str = Field(..., description="Name of the registered MCP tool to execute.")
+    arguments: dict = Field(default_factory=dict, description="Key-value arguments for the tool.")
+
+
+@app.get("/mcp/tools", response_model=List[ToolDefinition], tags=["Model Context Protocol (MCP)"])
+def list_mcp_tools():
+    """Returns schemas for all registered sandboxed MCP tools."""
+    server = get_mcp_server()
+    return server.list_tools()
+
+
+@app.post("/mcp/execute", response_model=ToolResult, tags=["Model Context Protocol (MCP)"])
+def execute_mcp_tool(request: ExecuteToolRequest):
+    """Executes a sandboxed MCP tool securely."""
+    server = get_mcp_server()
+    result = server.call_tool(name=request.tool_name, arguments=request.arguments)
+    return result
