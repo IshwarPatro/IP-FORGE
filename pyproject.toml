@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ip-forge"
+version = "0.1.0"
+description = "Federated Orchestrator for Reliable Generation & Engineering"
+authors = [{ name = "Ishwar Patro" }]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.29.0",
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.2.0",
+    "chromadb>=0.5.0",
+    "openai>=1.25.0",
+    "redis>=5.0.3",
+    "sqlalchemy>=2.0.29",
+    "asyncpg>=0.29.0",
+    "psycopg2-binary>=2.9.9",
+    "rich>=13.7.1"
+]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+pythonpath = ["."]
