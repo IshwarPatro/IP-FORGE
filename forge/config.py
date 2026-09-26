@@ -21,10 +21,15 @@ class Settings(BaseSettings):
     )
 
     # General App Settings
-    FORGE_ENV: Literal["development", "staging", "production"] = "development"
+    FORGE_ENV: Literal["development", "staging", "production", "local_m4", "amd_cloud"] = "development"
     FORGE_LOG_LEVEL: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = "INFO"
     FORGE_HOST: str = "0.0.0.0"
     FORGE_PORT: int = 8000
+
+    # Hardware Metadata
+    LOCAL_CHIP_MODEL: str = "Apple M4 (24GB Unified Memory)"
+    AMD_GPU_MODEL: str = "AMD Instinct MI300X (192GB HBM3)"
+    AMD_ROCM_VERSION: str = "6.2.0"
 
     # LLM Provider Selection: 'ollama', 'amd_vllm', 'openai'
     LLM_PROVIDER: Literal["ollama", "amd_vllm", "openai"] = "ollama"
@@ -38,6 +43,7 @@ class Settings(BaseSettings):
     AMD_VLLM_BASE_URL: str = "http://localhost:8000/v1"
     AMD_VLLM_MODEL: str = "meta-llama/Meta-Llama-3-70B-Instruct"
     AMD_VLLM_API_KEY: str = "empty"
+
 
     # Cloud Fallback (OpenAI)
     OPENAI_API_KEY: Optional[str] = None
@@ -70,14 +76,20 @@ class Settings(BaseSettings):
 
     def get_active_llm_config(self) -> dict:
         """Returns connection tuple (base_url, model, api_key) for the active LLM provider."""
-        if self.LLM_PROVIDER == "amd_vllm":
+        effective_provider = self.LLM_PROVIDER
+        if self.FORGE_ENV == "amd_cloud":
+            effective_provider = "amd_vllm"
+        elif self.FORGE_ENV == "local_m4":
+            effective_provider = "ollama"
+
+        if effective_provider == "amd_vllm":
             return {
                 "provider": "amd_vllm",
                 "base_url": self.AMD_VLLM_BASE_URL,
                 "model": self.AMD_VLLM_MODEL,
                 "api_key": self.AMD_VLLM_API_KEY,
             }
-        elif self.LLM_PROVIDER == "openai":
+        elif effective_provider == "openai":
             return {
                 "provider": "openai",
                 "base_url": "https://api.openai.com/v1",
@@ -91,6 +103,7 @@ class Settings(BaseSettings):
                 "model": self.OLLAMA_MODEL,
                 "api_key": self.OLLAMA_API_KEY,
             }
+
 
 
 # Singleton instance

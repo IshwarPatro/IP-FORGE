@@ -129,6 +129,50 @@ class LLMClient:
             raise
 
 
+    def benchmark_prompt(self, prompt: str, max_tokens: int = 128) -> Dict[str, Any]:
+        """
+        Executes a targeted prompt to measure Time-To-First-Token (TTFT),
+        generation throughput (tokens/second), and total latency.
+        """
+        messages = [{"role": "user", "content": prompt}]
+        start_time = time.perf_counter()
+
+        try:
+            stream = self.client.chat.completions.create(
+                model=self.model,
+                messages=messages,
+                max_tokens=max_tokens,
+                temperature=0.2,
+                stream=True
+            )
+            ttft_ms = None
+            generated_chunks = []
+            for chunk in stream:
+                if ttft_ms is None:
+                    ttft_ms = (time.perf_counter() - start_time) * 1000.0
+                delta = chunk.choices[0].delta.content or ""
+                generated_chunks.append(delta)
+
+            total_duration = time.perf_counter() - start_time
+            full_text = "".join(generated_chunks)
+            tokens_generated = max(len(full_text.split()), len(full_text) // 4, 1)
+            tok_per_sec = (tokens_generated / total_duration) if total_duration > 0 else 0.0
+
+            return {
+                "provider": self.provider,
+                "model": self.model,
+                "endpoint": self.base_url,
+                "total_duration_seconds": round(total_duration, 3),
+                "time_to_first_token_ms": round(ttft_ms or (total_duration * 1000.0), 1),
+                "tokens_generated": tokens_generated,
+                "tokens_per_second": round(tok_per_sec, 1),
+                "output_sample": full_text[:120].strip()
+            }
+        except Exception as exc:
+            logger.warning(f"Benchmark run failed on {self.provider}: {exc}")
+            raise
+
+
 _default_client: Optional[LLMClient] = None
 
 
@@ -140,3 +184,13 @@ def get_llm_client(provider: Optional[str] = None, force_new: bool = False) -> L
     if _default_client is None:
         _default_client = LLMClient()
     return _default_client
+
+
+def set_active_provider(provider: str) -> LLMClient:
+    """Updates global active LLM provider and resets singleton client."""
+    global _default_client
+    settings.LLM_PROVIDER = provider
+    _default_client = LLMClient(provider=provider)
+    logger.info(f"Switched active LLM provider to: {provider.upper()}")
+    return _default_client
+

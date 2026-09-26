@@ -9,7 +9,7 @@ from forge.llm.factory import LLMClient, get_llm_client
 
 def test_settings_defaults():
     """Verify default configurations are correctly typed and populated."""
-    assert settings.FORGE_ENV in ["development", "staging", "production"]
+    assert settings.FORGE_ENV in ["development", "staging", "production", "local_m4", "amd_cloud"]
     assert settings.FORGE_PORT == 8000
     assert settings.MAX_SELF_HEAL_ITERATIONS == 3
     assert settings.MCP_EXECUTION_TIMEOUT_SECONDS == 30

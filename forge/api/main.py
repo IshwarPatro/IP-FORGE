@@ -3,7 +3,8 @@ IP FORGE: REST API Gateway
 Exposes architecture query, repository indexing, and multi-agent endpoints.
 """
 
-from typing import List, Optional
+import platform
+from typing import List, Optional, Literal, Dict, Any
 from pathlib import Path
 from fastapi import FastAPI, HTTPException, status
 from fastapi.responses import RedirectResponse
@@ -260,4 +261,88 @@ def execute_task(request: ExecuteTaskRequest):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Task execution failed: {str(exc)}"
         )
+
+
+# ------------------------------------------------------------------------------
+# Hardware Telemetry & Hybrid Provider Management (Phase 5)
+# ------------------------------------------------------------------------------
+
+class HardwareTelemetryResponse(BaseModel):
+    local_workstation: Dict[str, Any]
+    amd_cloud: Dict[str, Any]
+    active_runtime: Dict[str, Any]
+
+
+class ToggleProviderRequest(BaseModel):
+    provider: Literal["ollama", "amd_vllm", "openai"] = Field(..., description="Target inference provider to activate.")
+    forge_env: Optional[str] = Field(default=None, description="Optional FORGE_ENV override (e.g. 'amd_cloud' or 'local_m4').")
+
+
+class ToggleProviderResponse(BaseModel):
+    status: str
+    previous_provider: str
+    active_provider: str
+    active_model: str
+    active_endpoint: str
+    forge_env: str
+
+
+@app.get("/system/hardware", response_model=HardwareTelemetryResponse, tags=["Hardware & Infrastructure"])
+def get_hardware_telemetry():
+    """
+    Returns hardware split telemetry comparing the local Apple Silicon workstation
+    orchestration host against the AMD Developer Cloud ROCm GPU reasoning backend.
+    """
+    from forge.llm.factory import get_llm_client
+    active_cfg = settings.get_active_llm_config()
+    client = get_llm_client()
+
+    return HardwareTelemetryResponse(
+        local_workstation={
+            "chip": settings.LOCAL_CHIP_MODEL,
+            "architecture": platform.machine(),
+            "os": f"{platform.system()} {platform.release()}",
+            "role": "Agent orchestration, sandboxing, AST vector search, and web serving"
+        },
+        amd_cloud={
+            "gpu_model": settings.AMD_GPU_MODEL,
+            "rocm_version": settings.AMD_ROCM_VERSION,
+            "endpoint": settings.AMD_VLLM_BASE_URL,
+            "model": settings.AMD_VLLM_MODEL,
+            "vllm_rocm_paged_attn": True,
+            "role": "Massive context reasoning for Planner, Debugger, and Reviewer agents"
+        },
+        active_runtime={
+            "forge_env": settings.FORGE_ENV,
+            "llm_provider": settings.LLM_PROVIDER,
+            "active_model": active_cfg["model"],
+            "active_endpoint": active_cfg["base_url"],
+            "is_healthy": client.is_healthy()
+        }
+    )
+
+
+@app.post("/system/toggle-provider", response_model=ToggleProviderResponse, tags=["Hardware & Infrastructure"])
+def toggle_provider(request: ToggleProviderRequest):
+    """
+    Dynamically toggles active inference provider between Local M4 (Ollama)
+    and AMD Developer Cloud (vLLM ROCm) at runtime without requiring server restart.
+    """
+    from forge.llm.factory import set_active_provider
+    prev_provider = settings.LLM_PROVIDER
+    if request.forge_env:
+        settings.FORGE_ENV = request.forge_env
+
+    set_active_provider(request.provider)
+    active_cfg = settings.get_active_llm_config()
+
+    return ToggleProviderResponse(
+        status="success",
+        previous_provider=prev_provider,
+        active_provider=settings.LLM_PROVIDER,
+        active_model=active_cfg["model"],
+        active_endpoint=active_cfg["base_url"],
+        forge_env=settings.FORGE_ENV
+    )
+
 
