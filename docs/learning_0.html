@@ -530,6 +530,10 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         10-Point Defense
       </button>
+      <button class="tab-btn" onclick="switchTab('localguide')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        How to Run Locally
+      </button>
     </div>
 
     <!-- Lead Architect Badge -->
@@ -1461,6 +1465,192 @@
         </div>
       </div>
 
+    </div>
+
+
+    <!-- ===================================================================== -->
+    <!-- TAB 6: HOW TO USE & RUN IP FORGE LOCALLY                              -->
+    <!-- ===================================================================== -->
+    <div id="pane-localguide" class="tab-pane">
+      <div style="margin-bottom: 2rem;">
+        <h2 style="font-size: 1.75rem; font-weight: 800; color: #fff;">Local Setup & Interactive Execution Guide</h2>
+        <p style="color: var(--slate-text);">Step-by-step instructions to run automated tests, launch CLI demos, and operate the Next.js developer dashboard on your local machine.</p>
+      </div>
+
+      <!-- Quick Start 3-Card Summary -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+        <div class="feature-card" style="border-color: rgba(56, 189, 248, 0.4);">
+          <div class="card-icon" style="background: rgba(56, 189, 248, 0.15);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          </div>
+          <h4 class="card-title">1. Automated Test Suite</h4>
+          <p class="card-desc">Execute all 42 unit, integration, RAG, MCP, and loop tests in under 15 seconds:</p>
+          <div class="code-box" style="margin-top: 0.75rem; padding: 0.6rem 0.8rem; font-size: 0.75rem;">
+            ./venv/bin/pytest tests/ -v
+          </div>
+        </div>
+
+        <div class="feature-card" style="border-color: rgba(99, 102, 241, 0.4);">
+          <div class="card-icon" style="background: rgba(99, 102, 241, 0.15);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <h4 class="card-title">2. FastAPI Gateway</h4>
+          <p class="card-desc">Start the backend orchestrator with real-time SSE streaming and OpenAPI docs:</p>
+          <div class="code-box" style="margin-top: 0.75rem; padding: 0.6rem 0.8rem; font-size: 0.75rem;">
+            ./venv/bin/uvicorn forge.api.main:app --reload --port 8000
+          </div>
+        </div>
+
+        <div class="feature-card" style="border-color: rgba(16, 185, 129, 0.4);">
+          <div class="card-icon" style="background: rgba(16, 185, 129, 0.15);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--emerald)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h4 class="card-title">3. Next.js 16 Dashboard</h4>
+          <p class="card-desc">Launch the dark-mode developer UI with live diff viewer and governance gates:</p>
+          <div class="code-box" style="margin-top: 0.75rem; padding: 0.6rem 0.8rem; font-size: 0.75rem;">
+            cd dashboard && npm run dev
+          </div>
+        </div>
+      </div>
+
+      <!-- Step-by-Step Walkthrough -->
+      <div style="display: flex; flex-direction: column; gap: 2rem;">
+        
+        <!-- Section A: Prerequisites -->
+        <div class="feature-card">
+          <h3 style="color: #fff; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: var(--cyan); color: #000; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.75rem;">A</span>
+            Prerequisites & Initial Environment Setup
+          </h3>
+          <p style="color: var(--slate-text); font-size: 0.88rem; margin-bottom: 1rem;">
+            Ensure you have Python 3.11+, Node.js 18+ (Node 20+ recommended), and Git installed on your system.
+          </p>
+          <div class="code-box">
+            <span class="comment"># 1. Clone the repository</span><br>
+            git clone https://github.com/IshwarPatro/IP-FORGE.git<br>
+            cd IP-FORGE<br><br>
+            <span class="comment"># 2. Create and activate Python virtual environment</span><br>
+            python3 -m venv venv<br>
+            source venv/bin/activate<br><br>
+            <span class="comment"># 3. Install core agent and orchestration dependencies</span><br>
+            pip install -r requirements.txt<br><br>
+            <span class="comment"># 4. Configure environment variables (defaults to local prototyping mode)</span><br>
+            cp .env.example .env
+          </div>
+        </div>
+
+        <!-- Section B: Interactive CLI Demos -->
+        <div class="feature-card">
+          <h3 style="color: #fff; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: var(--indigo); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.75rem;">B</span>
+            Running Phase-by-Phase Interactive CLI Demos
+          </h3>
+          <p style="color: var(--slate-text); font-size: 0.88rem; margin-bottom: 1rem;">
+            You can verify and test each subsystem individually using the interactive terminal scripts in the <code class="font-mono text-cyan">scripts/</code> directory:
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem;">
+            
+            <div style="background: #090d16; padding: 1rem; border-radius: 10px; border: 1px solid var(--border-color);">
+              <span class="font-mono text-xs text-cyan-400 font-bold">1. Phase 1: AST RAG Codebase Intelligence</span>
+              <p style="font-size: 0.8rem; color: var(--slate-text); margin: 0.4rem 0;">Indexes <code class="font-mono">tests/dummy_repo</code> into ChromaDB, parses function symbols, and executes semantic vector retrieval.</p>
+              <div class="code-box" style="padding: 0.5rem; font-size: 0.75rem;">./venv/bin/python scripts/demo_rag.py</div>
+            </div>
+
+            <div style="background: #090d16; padding: 1rem; border-radius: 10px; border: 1px solid var(--border-color);">
+              <span class="font-mono text-xs text-indigo-400 font-bold">2. Phase 2: Multi-Agent DAG Planning</span>
+              <p style="font-size: 0.8rem; color: var(--slate-text); margin: 0.4rem 0;">Generates an atomic 4-step engineering plan with dependencies and queries AST memory for architectural grounding.</p>
+              <div class="code-box" style="padding: 0.5rem; font-size: 0.75rem;">./venv/bin/python scripts/demo_planner.py</div>
+            </div>
+
+            <div style="background: #090d16; padding: 1rem; border-radius: 10px; border: 1px solid var(--border-color);">
+              <span class="font-mono text-xs text-amber-400 font-bold">3. Phase 3: Sandboxed MCP Tool Registry</span>
+              <p style="font-size: 0.8rem; color: var(--slate-text); margin: 0.4rem 0;">Tests FilesystemTools jailbreak protection (<code class="font-mono">../../</code> blocks), Git branch creation, and subprocess pytest execution.</p>
+              <div class="code-box" style="padding: 0.5rem; font-size: 0.75rem;">./venv/bin/python scripts/demo_mcp.py</div>
+            </div>
+
+            <div style="background: #090d16; padding: 1rem; border-radius: 10px; border: 1px solid var(--border-color);">
+              <span class="font-mono text-xs text-rose-400 font-bold">4. Phase 4: Autonomous Self-Healing Loop</span>
+              <p style="font-size: 0.8rem; color: var(--slate-text); margin: 0.4rem 0;">Injects a deliberate pricing bug, watches TestAgent fail, DebuggerAgent diagnose stack traces, and CoderAgent repair it.</p>
+              <div class="code-box" style="padding: 0.5rem; font-size: 0.75rem;">./venv/bin/python scripts/demo_autonomous_loop.py</div>
+            </div>
+
+            <div style="background: #090d16; padding: 1rem; border-radius: 10px; border: 1px solid var(--border-color);">
+              <span class="font-mono text-xs text-emerald-400 font-bold">5. Phase 5: Hardware & ROCm Latency Benchmark</span>
+              <p style="font-size: 0.8rem; color: var(--slate-text); margin: 0.4rem 0;">Profiles generation throughput, TTFT, and compares AMD MI300X 5.3 TB/s bandwidth vs Apple Silicon M4.</p>
+              <div class="code-box" style="padding: 0.5rem; font-size: 0.75rem;">./venv/bin/python scripts/benchmark_inference.py</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Section C: Full Web App & Dashboard -->
+        <div class="feature-card">
+          <h3 style="color: #fff; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: var(--emerald); color: #000; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.75rem;">C</span>
+            Running the Full-Stack Developer Dashboard (FastAPI + Next.js 16)
+          </h3>
+          <p style="color: var(--slate-text); font-size: 0.88rem; margin-bottom: 1rem;">
+            For the complete visual command center experience with real-time SSE telemetry and governance gates:
+          </p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+            <div class="code-box">
+              <span class="comment"># Terminal 1: Launch FastAPI Orchestration Gateway</span><br>
+              ./venv/bin/uvicorn forge.api.main:app --reload --port 8000<br><br>
+              <span class="comment"># API will be live at:</span><br>
+              <span class="string">http://localhost:8000</span><br>
+              <span class="comment"># Interactive Swagger documentation:</span><br>
+              <span class="string">http://localhost:8000/docs</span>
+            </div>
+
+            <div class="code-box">
+              <span class="comment"># Terminal 2: Launch Next.js Developer Dashboard</span><br>
+              cd dashboard<br>
+              npm install<br>
+              npm run dev<br><br>
+              <span class="comment"># Dashboard will be live at:</span><br>
+              <span class="string">http://localhost:3000</span>
+            </div>
+          </div>
+
+          <div style="padding: 1rem; background: rgba(15, 23, 42, 0.9); border-radius: 10px; border: 1px solid var(--border-color);">
+            <h4 style="color: #fff; font-size: 0.9rem; margin-bottom: 0.5rem;">Step-by-Step Dashboard Usage:</h4>
+            <ol style="color: var(--slate-text); font-size: 0.82rem; margin-left: 1.25rem; space-y: 0.4rem;">
+              <li><strong>Check Telemetry:</strong> Observe the top header displaying either <code class="font-mono text-cyan">Apple Silicon M4</code> or <code class="font-mono text-rose">AMD Instinct MI300X</code>. Click <code class="font-mono">Switch Provider</code> to toggle inference engines on the fly.</li>
+              <li><strong>Pick an Engineering Task:</strong> Select one of the built-in presets (e.g., <em>"Fix Discount Bug"</em> targeting <code class="font-mono text-cyan">app/utils.py</code>) or write your own custom prompt.</li>
+              <li><strong>Launch Autonomous Run:</strong> Click <code class="font-mono text-cyan">[Launch Loop]</code>. Watch the real-time Server-Sent Events (SSE) terminal stream every agent thought, tool execution, and pytest output.</li>
+              <li><strong>Audit Unified Git Diff:</strong> View the live color-coded diff in the right-hand panel with green additions (<code class="font-mono text-emerald">+</code>) and red deletions (<code class="font-mono text-rose">-</code>).</li>
+              <li><strong>Review Automated PR Card:</strong> Inspect the ReviewerAgent's standardized PR title, verification checklist, and risk rating (<code class="font-mono text-emerald">LOW RISK</code>).</li>
+              <li><strong>Exercise Governance Decision:</strong> Click <code class="font-mono text-emerald">[✓ Approve & Commit to Branch]</code> to stage changes into Git, or click <code class="font-mono text-rose">[✗ Reject & Request Revisions]</code> to feed corrective feedback back into the agent context.</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Section D: Direct REST API & cURL testing -->
+        <div class="feature-card">
+          <h3 style="color: #fff; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: var(--purple); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.75rem;">D</span>
+            Direct REST API Testing via cURL
+          </h3>
+          <p style="color: var(--slate-text); font-size: 0.88rem; margin-bottom: 1rem;">
+            You can interact directly with the FastAPI gateway endpoints using cURL or Postman:
+          </p>
+          <div class="code-box">
+            <span class="comment"># 1. Query Codebase Architecture & AST Symbols</span><br>
+            curl -s -X POST http://localhost:8000/query-architecture \<br>
+            &nbsp;&nbsp;-H "Content-Type: application/json" \<br>
+            &nbsp;&nbsp;-d '{"query": "Where is discount calculated?", "top_k": 2}' | python3 -m json.tool<br><br>
+            <span class="comment"># 2. Toggle Inference Provider between AMD Cloud and Local M4</span><br>
+            curl -s -X POST http://localhost:8000/system/toggle-provider \<br>
+            &nbsp;&nbsp;-H "Content-Type: application/json" \<br>
+            &nbsp;&nbsp;-d '{"provider": "local_m4"}' | python3 -m json.tool<br><br>
+            <span class="comment"># 3. Check Hardware & Accelerator Telemetry</span><br>
+            curl -s http://localhost:8000/system/hardware | python3 -m json.tool
+          </div>
+        </div>
+
+      </div>
     </div>
 
   </main>
