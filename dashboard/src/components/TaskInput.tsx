@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Play, Sparkles, Sliders, FileCode, CheckCircle, RotateCcw } from 'lucide-react';
 
 interface TaskInputProps {
-  onLaunchTask: (prompt: string, targetFile: string, maxRetries: number) => void;
+  onLaunchTask: (prompt: string, repoDir: string, targetFile: string, maxRetries: number) => void;
   onReset: () => void;
   isRunning: boolean;
 }
@@ -13,18 +13,21 @@ const PRESETS = [
   {
     title: 'Fix Discount Bug',
     prompt: 'Fix calculate_discount in app/utils.py so it correctly validates discount percentages between 0 and 100, rounds to 2 decimal places, and prevents ValueError.',
+    repoDir: 'tests/dummy_repo',
     file: 'app/utils.py',
     tag: 'Bugfix & Test',
   },
   {
     title: 'Add Pagination to Catalog',
     prompt: 'Implement page and page_size query parameters in app/routes.py to paginate the product catalog response with total page metadata.',
+    repoDir: 'tests/dummy_repo',
     file: 'app/routes.py',
     tag: 'Feature',
   },
   {
     title: 'Inventory Bounds Check',
     prompt: 'Enforce strict bounds checking in app/services.py to guarantee stock balance cannot drop below zero during order checkout.',
+    repoDir: 'tests/dummy_repo',
     file: 'app/services.py',
     tag: 'Robustness',
   },
@@ -36,18 +39,20 @@ export const TaskInput: React.FC<TaskInputProps> = ({
   isRunning,
 }) => {
   const [prompt, setPrompt] = useState(PRESETS[0].prompt);
+  const [repoDir, setRepoDir] = useState(PRESETS[0].repoDir);
   const [targetFile, setTargetFile] = useState(PRESETS[0].file);
   const [maxRetries, setMaxRetries] = useState(3);
 
   const handleSelectPreset = (p: typeof PRESETS[0]) => {
     setPrompt(p.prompt);
+    setRepoDir(p.repoDir);
     setTargetFile(p.file);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!prompt.trim() || isRunning) return;
-    onLaunchTask(prompt, targetFile, maxRetries);
+    onLaunchTask(prompt, repoDir, targetFile, maxRetries);
   };
 
   return (
@@ -97,10 +102,25 @@ export const TaskInput: React.FC<TaskInputProps> = ({
 
         {/* Controls Row */}
         <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+          {/* Repo Directory (Real Project Path) */}
+          <div className="sm:col-span-4 flex items-center space-x-2 bg-slate-950 px-3 py-2 rounded-xl border border-slate-800">
+            <span className="text-xs text-slate-500 font-mono shrink-0">Repo:</span>
+            <input
+              type="text"
+              id="repo-dir-input"
+              value={repoDir}
+              onChange={(e) => setRepoDir(e.target.value)}
+              disabled={isRunning}
+              placeholder="e.g. tests/dummy_repo or /path/to/project"
+              className="w-full bg-transparent text-xs text-slate-200 font-mono focus:outline-none"
+              title="Target repository folder to index and execute on (supports real repositories)"
+            />
+          </div>
+
           {/* Target File */}
-          <div className="sm:col-span-6 flex items-center space-x-2 bg-slate-950 px-3 py-2 rounded-xl border border-slate-800">
+          <div className="sm:col-span-3 flex items-center space-x-2 bg-slate-950 px-3 py-2 rounded-xl border border-slate-800">
             <FileCode className="w-4 h-4 text-slate-400 shrink-0" />
-            <span className="text-xs text-slate-500 font-mono">Target:</span>
+            <span className="text-xs text-slate-500 font-mono shrink-0">File:</span>
             <input
               type="text"
               id="target-file-input"
@@ -113,10 +133,10 @@ export const TaskInput: React.FC<TaskInputProps> = ({
           </div>
 
           {/* Max Retries Slider */}
-          <div className="sm:col-span-3 flex items-center justify-between bg-slate-950 px-3 py-2 rounded-xl border border-slate-800">
+          <div className="sm:col-span-2 flex items-center justify-between bg-slate-950 px-3 py-2 rounded-xl border border-slate-800">
             <div className="flex items-center space-x-1 text-xs text-slate-400">
               <Sliders className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Max Cycles:</span>
+              <span>Cycles:</span>
             </div>
             <div className="flex items-center space-x-1">
               {[1, 2, 3].map((val) => (
@@ -125,7 +145,7 @@ export const TaskInput: React.FC<TaskInputProps> = ({
                   type="button"
                   onClick={() => setMaxRetries(val)}
                   disabled={isRunning}
-                  className={`w-6 h-6 rounded-md text-xs font-mono font-semibold transition-colors cursor-pointer ${
+                  className={`w-5 h-5 rounded text-[11px] font-mono font-semibold transition-colors cursor-pointer ${
                     maxRetries === val
                       ? 'bg-cyan-500 text-slate-950'
                       : 'bg-slate-900 text-slate-400 hover:text-slate-200'

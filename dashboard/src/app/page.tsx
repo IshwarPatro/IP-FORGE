@@ -121,6 +121,7 @@ export default function DashboardPage() {
 
   const handleLaunchTask = async (
     prompt: string,
+    repoDir: string,
     targetFile: string,
     maxRetries: number
   ) => {
@@ -140,7 +141,7 @@ export default function DashboardPage() {
 
     setLogs([]);
     addLog('SYSTEM', `🚀 Initialized task workspace session [${sessionId}]. Branch created: ${branch}`);
-    addLog('SYSTEM', `Target repository: tests/dummy_repo | Primary target file: ${targetFile}`);
+    addLog('SYSTEM', `Target repository: ${repoDir} | Primary target file: ${targetFile}`);
 
     try {
       // Attempt SSE streaming from FastAPI backend
@@ -149,7 +150,7 @@ export default function DashboardPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           task_prompt: prompt,
-          repo_dir: 'tests/dummy_repo',
+          repo_dir: repoDir,
           target_file: targetFile,
           max_retries: maxRetries,
         }),
