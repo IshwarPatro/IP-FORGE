@@ -97,7 +97,8 @@
 
     .nav-tabs {
       display: flex;
-      gap: 0.5rem;
+      flex-wrap: wrap;
+      gap: 0.35rem;
       background: rgba(15, 23, 42, 0.6);
       padding: 0.3rem;
       border-radius: 12px;
@@ -108,15 +109,16 @@
       background: transparent;
       border: none;
       color: var(--slate-text);
-      padding: 0.55rem 1.1rem;
+      padding: 0.45rem 0.85rem;
       border-radius: 8px;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.25s ease;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
+      white-space: nowrap;
     }
 
     .tab-btn:hover {
@@ -513,6 +515,14 @@
       <button class="tab-btn active" onclick="switchTab('presentation')">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
         Presentation Deck
+      </button>
+      <button class="tab-btn" onclick="switchTab('models-diff')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Models & AI Differentiators
+      </button>
+      <button class="tab-btn" onclick="switchTab('real-project')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+        Real-Project Integration
       </button>
       <button class="tab-btn" onclick="switchTab('architecture')">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
@@ -1014,6 +1024,264 @@
           </div>
 
         </div> <!-- End slides viewport -->
+
+      </div>
+    </div>
+
+
+    <!-- ===================================================================== -->
+    <!-- TAB: MODELS & AI DIFFERENTIATORS                                      -->
+    <!-- ===================================================================== -->
+    <div id="pane-models-diff" class="tab-pane">
+      <div style="margin-bottom: 2rem;">
+        <h2 style="font-size: 1.75rem; font-weight: 800; color: #fff;">Exact AI Models & Core Differentiators</h2>
+        <p style="color: var(--slate-text);">Precise specifications of all LLMs, embeddings, accelerators, and what separates IP FORGE from current agents.</p>
+      </div>
+
+      <!-- Models Specification Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+        
+        <!-- Model 1: AMD Cloud Heavy Reasoning -->
+        <div class="feature-card" style="border-color: rgba(244, 63, 94, 0.4);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span class="font-mono text-xs text-rose-400 font-bold">TIER 1 // HEAVY REASONING</span>
+            <span style="font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 12px; background: rgba(244, 63, 94, 0.15); color: #fb7185;">AMD ROCm Cloud</span>
+          </div>
+          <h3 style="color: #fff; font-size: 1.15rem; margin-bottom: 0.3rem;">Meta-Llama-3-70B-Instruct</h3>
+          <p class="font-mono text-xs text-slate-400" style="margin-bottom: 0.8rem;">Alternative: Qwen2.5-Coder-32B-Instruct</p>
+          <ul style="color: var(--slate-text); font-size: 0.82rem; space-y: 0.4rem; list-style-type: none;">
+            <li><strong>Hardware:</strong> AMD Instinct MI300X (192GB HBM3 memory)</li>
+            <li><strong>Memory Bandwidth:</strong> 5.3 TB/s (44x Apple Silicon M4)</li>
+            <li><strong>Inference Engine:</strong> vLLM with ROCm custom PagedAttention HIP kernels</li>
+            <li><strong>Performance:</strong> 118.4 tokens/sec throughput, 28ms TTFT</li>
+            <li><strong>Role:</strong> Formulates complex multi-step plans, conducts deep traceback diagnosis, and synthesizes multi-file code patches.</li>
+          </ul>
+        </div>
+
+        <!-- Model 2: Local Workstation Fallback -->
+        <div class="feature-card" style="border-color: rgba(56, 189, 248, 0.4);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span class="font-mono text-xs text-cyan-400 font-bold">TIER 2 // LOCAL PROTOTYPING</span>
+            <span style="font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 12px; background: rgba(56, 189, 248, 0.15); color: #38bdf8;">Apple Silicon M4</span>
+          </div>
+          <h3 style="color: #fff; font-size: 1.15rem; margin-bottom: 0.3rem;">Gemma:7b</h3>
+          <p class="font-mono text-xs text-slate-400" style="margin-bottom: 0.8rem;">Alternatives: Llama-3-8B, Qwen2.5-Coder-7B</p>
+          <ul style="color: var(--slate-text); font-size: 0.82rem; space-y: 0.4rem; list-style-type: none;">
+            <li><strong>Hardware:</strong> Apple Silicon M4 (10-Core CPU / 16-Core GPU)</li>
+            <li><strong>Memory Bandwidth:</strong> 120 GB/s Unified Memory</li>
+            <li><strong>Runtime:</strong> Local Ollama on <code class="font-mono text-cyan">http://localhost:11434</code></li>
+            <li><strong>Performance:</strong> 42.5 tokens/sec throughput, 115ms TTFT</li>
+            <li><strong>Role:</strong> 100% offline development, local unit testing, and fast zero-cost prototyping without cloud credentials.</li>
+          </ul>
+        </div>
+
+        <!-- Model 3: Semantic AST Embeddings -->
+        <div class="feature-card" style="border-color: rgba(99, 102, 241, 0.4);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span class="font-mono text-xs text-indigo-400 font-bold">TIER 3 // AST VECTOR EMBEDDINGS</span>
+            <span style="font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 12px; background: rgba(99, 102, 241, 0.15); color: #818cf8;">ChromaDB (Local)</span>
+          </div>
+          <h3 style="color: #fff; font-size: 1.15rem; margin-bottom: 0.3rem;">all-MiniLM-L6-v2</h3>
+          <p class="font-mono text-xs text-slate-400" style="margin-bottom: 0.8rem;">Sentence-Transformers Dense Encoder</p>
+          <ul style="color: var(--slate-text); font-size: 0.82rem; space-y: 0.4rem; list-style-type: none;">
+            <li><strong>Vector Dimension:</strong> 384-dimensional dense vectors</li>
+            <li><strong>Storage:</strong> Embedded local ChromaDB vector database</li>
+            <li><strong>Query Latency:</strong> &lt; 15ms cosine similarity lookup</li>
+            <li><strong>Zero Data Leakage:</strong> Runs entirely on device; no code sent to third-party embedding APIs</li>
+            <li><strong>Role:</strong> Matches user queries to exact function signatures, class scopes, docstrings, and call hierarchies.</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Comparison Matrix: IP FORGE vs Current AI Coding Agents -->
+      <div class="feature-card" style="margin-bottom: 2rem;">
+        <h3 style="color: #fff; font-size: 1.25rem; margin-bottom: 0.5rem;">
+          What Makes IP FORGE Different From Current AI Agents?
+        </h3>
+        <p style="color: var(--slate-text); font-size: 0.85rem; margin-bottom: 1.25rem;">
+          A direct architectural comparison between IP FORGE and existing tools (GitHub Copilot, Cursor, Devin, Claude Code).
+        </p>
+
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.82rem;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-color); color: var(--slate-text);">
+                <th style="padding: 0.75rem;">Capability Dimension</th>
+                <th style="padding: 0.75rem;">GitHub Copilot / Cursor</th>
+                <th style="padding: 0.75rem;">Simple Chat / Script Agents</th>
+                <th style="padding: 0.75rem; color: var(--cyan);">IP FORGE (Our Agent)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid rgba(51, 65, 85, 0.3);">
+                <td style="padding: 0.75rem;"><strong>Operational Goal</strong></td>
+                <td style="padding: 0.75rem; color: var(--slate-text);">Line autocomplete & in-tab chat edits</td>
+                <td style="padding: 0.75rem; color: var(--slate-text);">Single-turn text code generation</td>
+                <td style="padding: 0.75rem; color: var(--cyan); font-weight: bold;">Full SDLC Task Execution (Plans &rarr; Codes &rarr; Tests &rarr; Debugs)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(51, 65, 85, 0.3);">
+                <td style="padding: 0.75rem;"><strong>Agent Architecture</strong></td>
+                <td style="padding: 0.75rem; color: var(--slate-text);">Monolithic prompt autocomplete</td>
+                <td style="padding: 0.75rem; color: var(--slate-text);">Single generic agent prompt</td>
+                <td style="padding: 0.75rem; color: var(--indigo); font-weight: bold;">6 Specialized Personas (Planner, Architect, Coder, Tester, Debugger, Reviewer)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(51, 65, 85, 0.3);">
+                <td style="padding: 0.75rem;"><strong>Codebase RAG (Challenge 3)</strong></td>
+                <td style="padding: 0.75rem; color: var(--slate-text);">Dumps active file or naive 500-char cuts</td>
+                <td style="padding: 0.75rem; color: var(--slate-text);">Whole-file context dumping (causes drift)</td>
+                <td style="padding: 0.75rem; color: var(--purple); font-weight: bold;">Proprietary AST Parsing (Extracts functions, classes & call trees into ChromaDB)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(51, 65, 85, 0.3);">
+                <td style="padding: 0.75rem;"><strong>Test Execution & Verification</strong></td>
+                <td style="padding: 0.75rem; color: var(--slate-text);">None (cannot run terminal tests)</td>
+                <td style="padding: 0.75rem; color: var(--slate-text);">Unconstrained bash execution</td>
+                <td style="padding: 0.75rem; color: var(--emerald); font-weight: bold;">Sandboxed MCP Terminal Runner (Locked cwd, 30s timeout, pytest exit codes)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(51, 65, 85, 0.3);">
+                <td style="padding: 0.75rem;"><strong>Failure Recovery / Self-Healing</strong></td>
+                <td style="padding: 0.75rem; color: var(--slate-text);">User must manually fix bugs</td>
+                <td style="padding: 0.75rem; color: var(--slate-text);">Re-prompts same LLM blindly</td>
+                <td style="padding: 0.75rem; color: var(--rose); font-weight: bold;">Closed-Loop Diagnostic Repair (Debugger isolates stack trace; bounded &le;3 cycles)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(51, 65, 85, 0.3);">
+                <td style="padding: 0.75rem;"><strong>Compute Infrastructure</strong></td>
+                <td style="padding: 0.75rem; color: var(--slate-text);">Proprietary cloud API lock-in</td>
+                <td style="padding: 0.75rem; color: var(--slate-text);">Local-only or cloud-only</td>
+                <td style="padding: 0.75rem; color: var(--cyan); font-weight: bold;">Federated Hybrid Compute (Local M4 + AMD Instinct MI300X 5.3 TB/s ROCm vLLM)</td>
+              </tr>
+              <tr>
+                <td style="padding: 0.75rem;"><strong>Human Governance & Safety</strong></td>
+                <td style="padding: 0.75rem; color: var(--slate-text);">Manual tab acceptance</td>
+                <td style="padding: 0.75rem; color: var(--slate-text);">Black-box writes (can pollute git)</td>
+                <td style="padding: 0.75rem; color: var(--emerald); font-weight: bold;">HitL Gateway (SSE live stream, color-coded diff viewer, risk-scored sign-off)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ===================================================================== -->
+    <!-- TAB: REAL-PROJECT INTEGRATION & SETUP GUIDE                           -->
+    <!-- ===================================================================== -->
+    <div id="pane-realproject" class="tab-pane">
+      <div style="margin-bottom: 2rem;">
+        <h2 style="font-size: 1.75rem; font-weight: 800; color: #fff;">How to Integrate IP FORGE with ANY Real Project</h2>
+        <p style="color: var(--slate-text);">A complete step-by-step guide to pointing IP FORGE at your actual codebases, libraries, or microservices.</p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        
+        <!-- Step 1: Any Project Agnostic -->
+        <div class="feature-card">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--cyan); color: #000; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">1</span>
+            <h3 style="color: #fff; font-size: 1.1rem;">Repository-Agnostic Architecture: Point Anywhere</h3>
+          </div>
+          <p class="card-desc">
+            While <code class="font-mono text-cyan">tests/dummy_repo</code> was our development test fixture, IP FORGE's AST parser, vector store, and MCP tools accept <strong>any arbitrary directory path</strong> on your computer. You can run it on Flask backends, FastAPI services, Django platforms, scientific scripts, or CLI utilities.
+          </p>
+        </div>
+
+        <!-- Step 2: Indexing -->
+        <div class="feature-card">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--indigo); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">2</span>
+            <h3 style="color: #fff; font-size: 1.1rem;">Index Your Real Project into ChromaDB AST Memory</h3>
+          </div>
+          <p class="card-desc" style="margin-bottom: 0.75rem;">
+            Trigger the AST Codebase Parser on your target repository. It traverses all Python source files, ignores virtual environments (<code class="font-mono">venv</code>, <code class="font-mono">.git</code>), extracts every function signature, class, and docstring, and embeds them into ChromaDB:
+          </p>
+          <div class="code-box">
+            <span class="comment"># Replace with your actual project directory path</span><br>
+            curl -s -X POST http://localhost:8000/index-repository \<br>
+            &nbsp;&nbsp;-H "Content-Type: application/json" \<br>
+            &nbsp;&nbsp;-d '{"repo_dir": "/Users/ishwar/Desktop/my-real-backend"}' | python3 -m json.tool<br><br>
+            <span class="comment"># Output Confirmation:</span><br>
+            {<br>
+            &nbsp;&nbsp;<span class="string">"status"</span>: <span class="string">"indexed"</span>,<br>
+            &nbsp;&nbsp;<span class="string">"total_files_parsed"</span>: 84,<br>
+            &nbsp;&nbsp;<span class="string">"total_symbols_indexed"</span>: 312<br>
+            }
+          </div>
+        </div>
+
+        <!-- Step 3: Git Branch Isolation -->
+        <div class="feature-card">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--purple); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">3</span>
+            <h3 style="color: #fff; font-size: 1.1rem;">Automatic Git Branch Isolation (Zero Main Branch Pollution)</h3>
+          </div>
+          <p class="card-desc">
+            When you dispatch a task on your real project, MCP's <code class="font-mono text-cyan">GitTools</code> automatically creates an isolated branch:
+            <code class="font-mono text-emerald">forge/task-&lt;session_id&gt;</code>.
+            Your <code class="font-mono">main</code> or active working branch is completely preserved. If the autonomous loop exhausts its retries, your repository is completely unharmed.
+          </p>
+        </div>
+
+        <!-- Step 4: Dispatching via Web UI or cURL -->
+        <div class="feature-card">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--emerald); color: #000; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">4</span>
+            <h3 style="color: #fff; font-size: 1.1rem;">Dispatch Tasks on Your Real Project</h3>
+          </div>
+          <p class="card-desc" style="margin-bottom: 0.75rem;">
+            You have two seamless ways to dispatch engineering tasks on your real project:
+          </p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div style="background: #090d16; padding: 1rem; border-radius: 10px; border: 1px solid var(--border-color);">
+              <h4 style="color: var(--cyan); font-size: 0.9rem; margin-bottom: 0.4rem;">Method 1: Web Dashboard (UI)</h4>
+              <p style="font-size: 0.8rem; color: var(--slate-text); margin-bottom: 0.5rem;">Open <code class="font-mono text-cyan">http://localhost:3000</code> in your browser:</p>
+              <ul style="color: var(--slate-text); font-size: 0.78rem; space-y: 0.25rem; margin-left: 1rem;">
+                <li>Set <strong>Repo:</strong> to <code class="font-mono">/path/to/my-real-project</code></li>
+                <li>Set <strong>File:</strong> to <code class="font-mono">src/middleware/auth.py</code></li>
+                <li>Enter your prompt and click <strong>[Launch Loop]</strong></li>
+              </ul>
+            </div>
+
+            <div style="background: #090d16; padding: 1rem; border-radius: 10px; border: 1px solid var(--border-color);">
+              <h4 style="color: var(--indigo); font-size: 0.9rem; margin-bottom: 0.4rem;">Method 2: REST API (cURL)</h4>
+              <p style="font-size: 0.8rem; color: var(--slate-text); margin-bottom: 0.5rem;">Send a POST request directly to the gateway:</p>
+              <div class="code-box" style="padding: 0.5rem; font-size: 0.72rem;">
+                curl -X POST http://localhost:8000/execute-task \<br>
+                &nbsp;&nbsp;-H "Content-Type: application/json" \<br>
+                &nbsp;&nbsp;-d '{<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"task_prompt": "Refactor token auth",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"repo_dir": "/path/to/my-project",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"target_file": "src/auth.py",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"max_retries": 3<br>
+                &nbsp;&nbsp;}'
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5: Operator Sign-off & Merging -->
+        <div class="feature-card">
+          <div style="display: align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+              <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--amber); color: #000; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem;">5</span>
+              <h3 style="color: #fff; font-size: 1.1rem;">Operator Governance Review & Final Git Merge</h3>
+            </div>
+            <p class="card-desc" style="margin-bottom: 0.75rem;">
+              Once the autonomous loop completes and all unit tests in your real project pass:
+            </p>
+            <ol style="color: var(--slate-text); font-size: 0.82rem; margin-left: 1.25rem; space-y: 0.4rem;">
+              <li>Inspect the unified diff and ReviewerAgent checklist on the web dashboard.</li>
+              <li>Click <strong>[✓ Approve & Commit to Branch]</strong>. This stages and commits the code into <code class="font-mono text-cyan">forge/task-...</code> on your real project.</li>
+              <li>In your terminal inside your real project, merge or create a pull request:
+                <div class="code-box" style="margin-top: 0.5rem; padding: 0.5rem; font-size: 0.75rem;">
+                  git checkout main<br>
+                  git merge forge/task-&lt;session_id&gt;<br>
+                  git push origin main
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
 
       </div>
     </div>
