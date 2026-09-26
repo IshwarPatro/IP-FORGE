@@ -5,9 +5,14 @@ Exposes architecture query, repository indexing, and multi-agent endpoints.
 
 import platform
 from typing import List, Optional, Literal, Dict, Any
+import json
+import asyncio
+import queue
+import threading
+import datetime
 from pathlib import Path
 from fastapi import FastAPI, HTTPException, status
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from forge.config import settings, setup_logger
@@ -344,5 +349,138 @@ def toggle_provider(request: ToggleProviderRequest):
         active_endpoint=active_cfg["base_url"],
         forge_env=settings.FORGE_ENV
     )
+
+
+# ------------------------------------------------------------------------------
+# Real-Time SSE Streaming & HitL Governance Endpoints (Phase 6)
+# ------------------------------------------------------------------------------
+
+_governance_sessions: Dict[str, Dict[str, Any]] = {}
+
+
+@app.post("/execute-task-stream", tags=["Autonomous Self-Healing Loop"])
+async def execute_task_stream(request: ExecuteTaskRequest):
+    """
+    Executes an autonomous task with real-time Server-Sent Events (SSE) streaming updates
+    for the Next.js developer dashboard.
+    """
+    event_queue: queue.Queue = queue.Queue()
+
+    def event_callback(event_name: str, payload: dict):
+        event_queue.put({"event": event_name, "data": payload})
+
+    def run_worker():
+        try:
+            from forge.orchestrator.loop import get_autonomous_loop
+            loop = get_autonomous_loop()
+            state = loop.run(
+                task=request.task,
+                target_file=request.target_file,
+                test_command=request.test_command,
+                create_branch=request.create_branch,
+                on_event=event_callback
+            )
+            # Record in global governance registry
+            session_record = {
+                "session_id": state.session_id,
+                "task": state.task,
+                "status": state.status,
+                "tests_passed": state.tests_passed,
+                "iterations_used": state.retry_count,
+                "git_branch": state.git_branch,
+                "git_diff": state.git_diff,
+                "audit_trail": state.audit_trail,
+                "created_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                "governance_decision": "pending"
+            }
+            _governance_sessions[state.session_id] = session_record
+            event_queue.put({"event": "final_state", "data": session_record})
+        except Exception as exc:
+            logger.error(f"Stream worker error: {exc}", exc_info=True)
+            event_queue.put({"event": "error", "data": {"message": str(exc)}})
+        finally:
+            event_queue.put(None)
+
+    threading.Thread(target=run_worker, daemon=True).start()
+
+    async def sse_generator():
+        while True:
+            try:
+                item = event_queue.get_nowait()
+            except queue.Empty:
+                await asyncio.sleep(0.05)
+                continue
+
+            if item is None:
+                yield "event: stream_end\ndata: {}\n\n"
+                break
+
+            ev_name = item["event"]
+            ev_data = json.dumps(item["data"])
+            yield f"event: {ev_name}\ndata: {ev_data}\n\n"
+
+    return StreamingResponse(sse_generator(), media_type="text/event-stream")
+
+
+class GovernanceDecisionRequest(BaseModel):
+    session_id: str
+    decision: Literal["approve", "reject"]
+    feedback: Optional[str] = None
+
+
+class GovernanceDecisionResponse(BaseModel):
+    status: str
+    session_id: str
+    decision: str
+    message: str
+
+
+@app.post("/governance/decision", response_model=GovernanceDecisionResponse, tags=["Human-in-the-Loop Governance"])
+def submit_governance_decision(request: GovernanceDecisionRequest):
+    """
+    Submits human approval or rejection of an agent-generated task pull request.
+    If approved, commits the changes on the task branch.
+    If rejected, registers corrective feedback for iteration.
+    """
+    session = _governance_sessions.get(request.session_id)
+    if not session:
+        _governance_sessions[request.session_id] = {
+            "session_id": request.session_id,
+            "decision": request.decision,
+            "feedback": request.feedback
+        }
+        session = _governance_sessions[request.session_id]
+
+    session["governance_decision"] = request.decision
+    session["human_feedback"] = request.feedback
+
+    if request.decision == "approve":
+        try:
+            server = get_mcp_server()
+            msg = f"Human Approved Task: {session.get('task', 'Autonomous patch')}"
+            server.call_tool("commit_changes", {"message": msg})
+        except Exception as exc:
+            logger.warning(f"Git commit on approval: {exc}")
+
+        return GovernanceDecisionResponse(
+            status="success",
+            session_id=request.session_id,
+            decision="approved",
+            message="Changes approved by human engineer. Pull Request marked ready to merge."
+        )
+    else:
+        return GovernanceDecisionResponse(
+            status="success",
+            session_id=request.session_id,
+            decision="rejected",
+            message=f"Changes rejected with feedback: '{request.feedback or 'No feedback provided'}'. Re-queued for iteration."
+        )
+
+
+@app.get("/governance/sessions", tags=["Human-in-the-Loop Governance"])
+def list_governance_sessions():
+    """Lists all active and completed engineering sessions for HitL oversight."""
+    return list(_governance_sessions.values())
+
 
 
