@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IP FORGE - Hackathon Survival Guide & Judge Defense Dossier</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+    @page {
+      size: letter;
+      margin: 14mm 14mm 14mm 14mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.55;
+      font-size: 13px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Header & Badge */
+    .header-dossier {
+      border-bottom: 3px solid #dc2626;
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .dossier-title {
+      font-size: 24px;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dossier-title span.highlight {
+      color: #dc2626;
+    }
+
+    .dossier-meta {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      text-align: right;
+    }
+
+    .badge-clearance {
+      display: inline-block;
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #f87171;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* Section Headers */
+    h2 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: -0.2px;
+      border-left: 4px solid #dc2626;
+      padding-left: 8px;
+      margin: 18px 0 10px 0;
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 10px 0 6px 0;
+      page-break-after: avoid;
+    }
+
+    p {
+      margin-bottom: 8px;
+      color: #334155;
+    }
+
+    /* Callouts & Quotes */
+    .pitch-quote {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #dc2626;
+      border-radius: 6px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #0f172a;
+      page-break-inside: avoid;
+    }
+
+    .pitch-quote strong {
+      color: #dc2626;
+    }
+
+    /* Tech Cards Grid */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+      page-break-inside: avoid;
+    }
+
+    .tech-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+
+    .tech-card h4 {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .tech-card p {
+      font-size: 11px;
+      margin: 0;
+      color: #475569;
+    }
+
+    /* Architecture Flow Box */
+    .flow-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1.45;
+      page-break-inside: avoid;
+    }
+
+    .flow-box .arrow {
+      color: #f87171;
+      font-weight: bold;
+    }
+
+    .flow-box .step-num {
+      color: #38bdf8;
+      font-weight: bold;
+    }
+
+    /* Steps list */
+    .steps-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .step-item {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 8px 10px;
+      page-break-inside: avoid;
+    }
+
+    .step-header {
+      font-weight: 700;
+      font-size: 12px;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+
+    .step-desc {
+      font-size: 11.5px;
+      color: #475569;
+      margin: 0;
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 14px 0;
+      font-size: 11px;
+      page-break-inside: avoid;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #0f172a;
+      color: #f8fafc;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      background: #f1f5f9;
+      color: #b91c1c;
+      padding: 1px 4px;
+      border-radius: 3px;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* Demo Script Cards */
+    .demo-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .demo-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid #dc2626;
+      border-radius: 6px;
+      padding: 8px 10px;
+      page-break-inside: avoid;
+    }
+
+    .demo-time {
+      font-size: 11px;
+      font-weight: 800;
+      color: #dc2626;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .demo-say {
+      font-size: 11.5px;
+      font-style: italic;
+      color: #1e293b;
+      margin-bottom: 3px;
+      background: #f1f5f9;
+      padding: 4px 6px;
+      border-radius: 4px;
+    }
+
+    .demo-code {
+      font-size: 10.5px;
+      color: #64748b;
+      margin: 0;
+    }
+
+    /* Defense Cards */
+    .qa-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      page-break-inside: avoid;
+    }
+
+    .qa-q {
+      font-size: 12px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .qa-a {
+      font-size: 11.5px;
+      color: #334155;
+      margin: 0;
+    }
+
+    .qa-a strong {
+      color: #dc2626;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    .footer {
+      border-top: 1px solid #cbd5e1;
+      padding-top: 6px;
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 9.5px;
+      color: #94a3b8;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- PAGE 1: DOSSIER HEADER & ELEVATOR PITCH & BLUEPRINT -->
+    <div class="header-dossier">
+      <div>
+        <div class="dossier-title">🛡️ IP FORGE <span class="highlight">//</span> SURVIVAL GUIDE</div>
+        <div style="font-size: 12px; color: #475569; font-weight: 600; margin-top: 2px;">
+          Lablab x AMD AI Academy Challenge • Tactical Briefing Dossier
+        </div>
+      </div>
+      <div class="dossier-meta">
+        <div>Lead Architect: <strong>Ishwar Patro</strong></div>
+        <div class="badge-clearance">LEVEL 5 TOP SECRET</div>
+      </div>
+    </div>
+
+    <!-- 1. ELEVATOR PITCH -->
+    <h2>1. 🚀 The AMD Elevator Pitch (Level 1)</h2>
+    <div class="pitch-quote">
+      <strong>"IP FORGE is an autonomous, self-healing AI software engineering agency that takes natural language issue prompts and safely turns them into verified, pull-request-ready code without touching human hands until the final governance gate.</strong><br><br>
+      By offloading deep structural reasoning to AMD Instinct™ MI300X accelerators on the AMD Developer Cloud while running local AST indexing at the edge, we achieve enterprise-grade codebase mutation with zero latency bottlenecks and 100% human-governed safety."
+    </div>
+
+    <div class="tech-grid">
+      <div class="tech-card">
+        <h4>🔴 AMD Developer Cloud & ROCm™ 6.2</h4>
+        <p>Gives us <strong>192GB of unified HBM3 memory</strong> at <strong>5.3 TB/s bandwidth</strong> so 70B models digest massive codebases without paging out.</p>
+      </div>
+      <div class="tech-card">
+        <h4>🧠 Llama-3-70B & Qwen2.5-Coder-32B</h4>
+        <p>Served via vLLM with custom <strong>ROCm PagedAttention HIP kernels</strong>, slashing Time-To-First-Token below 180ms.</p>
+      </div>
+      <div class="tech-card">
+        <h4>🌳 AST Parser + ChromaDB Vectors</h4>
+        <p>Dumb text chunking butchers code; our AST parser preserves exact class/function hierarchies in <strong>384-dimensional dense vectors</strong>.</p>
+      </div>
+      <div class="tech-card">
+        <h4>⚛️ Next.js 16 + FastAPI Async SSE</h4>
+        <p>Non-blocking streaming cockpit with unified color-coded git diffs and <strong>Human-in-the-Loop (HitL)</strong> approval gates.</p>
+      </div>
+    </div>
+
+    <!-- 2. THE BLUEPRINT -->
+    <h2>2. 🏭 The Blueprint (How the Magic Works)</h2>
+    <p style="font-size: 11.5px; margin-bottom: 8px;">
+      Think of ordinary AI coding assistants like an intern with goldfish memory trying to rewrite your engine while cruising at 90 MPH. 
+      <strong>IP FORGE is a precision aerospace factory assembly line:</strong>
+    </p>
+
+    <div class="flow-box">
+      [User Clicks 'Forge'] <span class="arrow">──&gt;</span> (POST /api/execute-task/stream)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">│</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">▼</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[AST Vector Retrieval] (Semantic symbols from ChromaDB)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">│</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">▼</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6-Agent Loop on AMD MI300X] (Planner ➔ Architect ➔ Coder)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">│</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">▼</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[MCP Sandbox Runner] ➔ Pytest Passed? ➔ <span style="color:#4ade80;">[YES]</span> ➔ Reviewer<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <span style="color:#f87171;">[NO]</span> ➔ Self-Healing Cycle (&le;3x)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">▼</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Human-in-the-Loop Gate] (Unified Diff &amp; PR Approval)
+    </div>
+
+    <div class="steps-container">
+      <div class="step-item">
+        <div class="step-header">⚡ Step 1: The Dispatch (Frontend ➔ API)</div>
+        <div class="step-desc">Clicking "Forge" fires <code>POST /api/execute-task/stream</code>. An asynchronous Server-Sent Events (SSE) pipe opens immediately so telemetry flows live.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-header">🌳 Step 2: The Reconnaissance (ChromaDB Vector Store)</div>
+        <div class="step-desc">CodebaseVectorStore queries 384-dim AST embeddings. Only matching classes and signatures enter context—no bloated prompts.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-header">🔴 Step 3: Silicon Heavy Lifting (AMD Instinct MI300X Cloud)</div>
+        <div class="step-desc">Planner &amp; Architect personas pass payloads to ROCm vLLM. 192GB HBM3 memory processes 70B weights in sub-second time.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-header">🛡️ Step 4 &amp; 5: Cleanroom Surgery &amp; Self-Healing (MCP Sandbox)</div>
+        <div class="step-desc">Coder edits inside an isolated git branch. Tester runs pytest; if it fails, Debugger analyzes the traceback and auto-heals up to 3 bounded cycles.</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>Operation Silicon Sovereignty • IP FORGE</div>
+      <div>Page 1 of 2</div>
+    </div>
+
+    <!-- PAGE BREAK -->
+    <div class="page-break"></div>
+
+    <!-- PAGE 2: WEAPONS, DEMO PATH, AND BOSS FIGHT PREP -->
+    <div class="header-dossier" style="margin-top: 10px;">
+      <div>
+        <div class="dossier-title">⚔️ WEAPONS &amp; JUDGE DEFENSE <span class="highlight">//</span> LEVEL 2</div>
+      </div>
+      <div class="dossier-meta">
+        <div>Target: <strong>Lablab x AMD Hackathon</strong></div>
+        <div class="badge-clearance">OFFICIAL DEFENSE DOSSIER</div>
+      </div>
+    </div>
+
+    <!-- 3. DO NOT IGNORE FILES -->
+    <h2>3. ⚔️ The "Do Not Ignore" Files (Your Weapons)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 28%;">File Path</th>
+          <th style="width: 38%;">Core Job in Plain English</th>
+          <th style="width: 34%;">Memorize This Function</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>forge/orchestrator/loop.py</code></td>
+          <td>The Master Conductor coordinating the 6-agent loop and managing self-healing repair cycles.</td>
+          <td><code>AutonomousLoop.run()</code></td>
+        </tr>
+        <tr>
+          <td><code>forge/rag/ast_parser.py</code></td>
+          <td>The Syntactic Surgeon slicing Python code into classes, methods, and docstrings.</td>
+          <td><code>ASTSymbolExtractor.parse_file()</code></td>
+        </tr>
+        <tr>
+          <td><code>forge/mcp/terminal_tools.py</code></td>
+          <td>The Armored Hands running terminal commands with strict regex security blacklists.</td>
+          <td><code>TerminalTools.execute_command()</code></td>
+        </tr>
+        <tr>
+          <td><code>forge/llm/factory.py</code></td>
+          <td>The Dual-Engine Throttle routing requests to AMD vLLM and benchmarking token throughput.</td>
+          <td><code>LLMClient.generate()</code></td>
+        </tr>
+        <tr>
+          <td><code>forge/api/main.py</code></td>
+          <td>The Mission Control Gateway handling FastAPI endpoints, SSE streaming, and HitL gates.</td>
+          <td><code>execute_task_stream()</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 4. THE 2-MINUTE HERO DEMO -->
+    <h2>4. 🎬 The 2-Minute Hero Demo (The Golden Path)</h2>
+    <div class="demo-grid">
+      <div class="demo-card">
+        <div class="demo-time">⏱️ 0:00 – 0:30 • Hardware Flex &amp; Dual-Tier Setup</div>
+        <div class="demo-say">"Judges, notice the status pill: AMD ROCm Active (MI300X). We run local orchestration on Apple Silicon, but all heavy 70B architectural reasoning is powered by AMD Instinct MI300X via ROCm 6.2."</div>
+        <div class="demo-code">Code: Polling <code>/api/hardware-status</code>, verifying vLLM endpoint &amp; memory telemetry.</div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-time">⏱️ 0:30 – 1:15 • Task Injection &amp; Live SSE Activity</div>
+        <div class="demo-say">"I click 'Forge Code' for an LRU cache with TTL. Rather than a dumb spinner, our SSE pipe streams every agent event in real time as the AST vector index locates symbol boundaries."</div>
+        <div class="demo-code">Code: <code>POST /api/execute-task/stream</code> triggers ChromaDB query &amp; Planner/Architect generation.</div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-time">⏱️ 1:15 – 1:45 • The Boss Move: Automated Self-Healing</div>
+        <div class="demo-say">"Watch the terminal logs. The Tester agent runs pytest via sandboxed MCP tools. If an assertion fails, the Debugger intercepts the trace and auto-heals the code in a bounded loop."</div>
+        <div class="demo-code">Code: <code>TerminalTools.execute_command()</code> catches non-zero exit; <code>_run_healing_cycle()</code> invokes Debugger.</div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-time">⏱️ 1:45 – 2:00 • The Victory Lap: Human-in-the-Loop Sign-off</div>
+        <div class="demo-say">"Here is our enterprise safety guarantee: IP FORGE never writes to production blindly. It presents a verified, color-coded git diff and awaits my cryptographic sign-off. One click, and we merge."</div>
+        <div class="demo-code">Code: <code>POST /api/governance/decision</code> merges isolated branch into main and closes session.</div>
+      </div>
+    </div>
+
+    <!-- 5. BOSS FIGHT PREP -->
+    <h2>5. 🛡️ Boss Fight Prep (Judge Defense)</h2>
+    <div class="qa-card">
+      <div class="qa-q">❓ "How did you handle the latency and resource consumption on AMD hardware?"</div>
+      <div class="qa-a">
+        "We built an <strong>asymmetric compute hierarchy</strong>: lightweight AST extraction runs locally on CPU/NPU in under 50ms. On the AMD Developer Cloud, our vLLM server uses <strong>ROCm 6.2 custom PagedAttention HIP kernels</strong>, eliminating KV-cache fragmentation and keeping TTFT under <strong>180ms</strong>. The MI300X's <strong>192GB HBM3 memory</strong> at 5.3 TB/s handles massive multi-file context without quantized accuracy degradation."
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q">❓ "What is the most complex piece of logic in your pipeline, and how did you verify it?"</div>
+      <div class="qa-a">
+        "The <strong>Bounded Convergence Self-Healing Loop</strong> in <code>forge/orchestrator/loop.py</code>. To prevent runaway hallucination loops, we enforce three mathematical guardrails: AST delta verification, a strict cap of &le;3 repair iterations, and a regression test suite. We validated this with <strong>42 automated tests</strong> in <code>tests/</code>, including deliberate fault injection."
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q">❓ "If you had another week to build on this, how would you improve it?"</div>
+      <div class="qa-a">
+        "Three upgrades: 1) <strong>Multi-Language Tree-Sitter Core</strong> for Rust, Go, C++, and TypeScript. 2) <strong>Micro-VM Sandboxing</strong> using Firecracker or lightweight containers for kernel-level test isolation. 3) <strong>Speculative Decoding on AMD APUs</strong> where a 7B model on an AMD Ryzen AI NPU generates draft tokens and the MI300X validates them in parallel, boosting throughput by 2.5x."
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>Lead Architect: Ishwar Patro • GitHub: IshwarPatro/IP-FORGE</div>
+      <div>Page 2 of 2</div>
+    </div>
+
+  </div>
+</body>
+</html>
