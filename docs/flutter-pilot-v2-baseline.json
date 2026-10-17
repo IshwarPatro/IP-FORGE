@@ -1,0 +1,92 @@
+{
+  "status": "baseline_completed",
+  "model": "Qwen/Qwen2.5-Coder-7B-Instruct",
+  "revision": "c03e6d358207e414f1eca0bb1891e29f1db0e242",
+  "limit": 512,
+  "seed": 42,
+  "steps": 0,
+  "limitation": "Small seed dataset; pipeline verification only, not Flutter competence.",
+  "dataset_sha256": {
+    "train": "359f267448ebfc315096f89ae453b545f2e19d1ebb33161d05429301caf54483",
+    "evaluation": "e29a8463dc6e40ef186a628731a012be436825464a790a5c66483ca681a59186"
+  },
+  "lengths": {
+    "train": {
+      "cache_clean": 274,
+      "cache_expiry": 292,
+      "cache_logout": 266,
+      "state_clean": 152,
+      "state_notification": 154
+    },
+    "evaluation": {
+      "navigation_clean": 236,
+      "navigation_missing_content": 243,
+      "search_clean": 148,
+      "search_stale": 156,
+      "offline_clean": 168,
+      "offline_stale": 175
+    }
+  },
+  "baseline": [
+    {
+      "id": "navigation_clean",
+      "reference_loss": 4.05606746673584,
+      "reference": "No defect found in the tested details navigation and return flow.",
+      "expected_behavior": "Tapping Open item must open a details screen displaying Fixture item. Back must return to the list.",
+      "has_defect": false,
+      "generated_tokens": 128,
+      "generation_limit_reached": true,
+      "response": "The provided code meets the required behavior. When you tap on \"Open item,\" it correctly navigates to a new screen displaying \"Fixture item\" in an app bar titled \"Details.\" Pressing the back button returns you to the list of items.\n\nHere's a breakdown of the code:\n\n1. **Main Function**: The `main` function initializes the app by running `const FixtureApp()`.\n\n2. **FixtureApp Class**:\n   - This class extends `StatelessWidget`.\n   - It overrides the `build` method to return a `MaterialApp` widget.\n   - Inside the `MaterialApp`, there is a `"
+    },
+    {
+      "id": "navigation_missing_content",
+      "reference_loss": 3.4217634201049805,
+      "reference": "The details route opens but omits the item content. Render the selected item on the details screen.",
+      "expected_behavior": "Tapping Open item must open a details screen displaying Fixture item. Back must return to the list.",
+      "has_defect": true,
+      "generated_tokens": 128,
+      "generation_limit_reached": true,
+      "response": "The provided code has a few issues that prevent it from meeting the required behavior:\n\n1. **No List of Items**: The current implementation does not display a list of items. Instead, it only shows a single \"Open item\" button.\n2. **Back Button Behavior**: There is no back button in the details screen, and there's no way to navigate back to the list screen once you are on the details screen.\n\nTo fix these issues, we need to create a list of items and provide a way to navigate between the list and the details screen. Here\u2019s an updated version of the code:\n\n```dart\nimport 'package:flutter"
+    },
+    {
+      "id": "search_clean",
+      "reference_loss": 3.5016720294952393,
+      "reference": "No defect found: older responses cannot overwrite the latest search result.",
+      "expected_behavior": "The most recently started search owns the displayed result even if an earlier response finishes later.",
+      "has_defect": false,
+      "generated_tokens": 128,
+      "generation_limit_reached": true,
+      "response": "The provided Dart code implements a `LatestSearch` class that ensures only the most recent search's result is stored and displayed. This behavior is achieved by maintaining a `_request` counter and comparing it with the current request number when processing the response.\n\nHere's a detailed review of the code:\n\n1. **Class Definition**:\n   - `LatestSearch` class has two private members: `_request` (an integer to keep track of the request count) and `result` (a nullable string to store the search result).\n\n2. **Constructor**:\n   - No explicit constructor is defined, which means the default constructor (`LatestSearch()"
+    },
+    {
+      "id": "search_stale",
+      "reference_loss": 2.890068769454956,
+      "reference": "An older response can overwrite the latest result. Reject responses whose request ID differs from the current request ID.",
+      "expected_behavior": "The most recently started search owns the displayed result even if an earlier response finishes later.",
+      "has_defect": true,
+      "generated_tokens": 128,
+      "generation_limit_reached": true,
+      "response": "The provided code has a logical flaw that can lead to incorrect behavior. Specifically, the `search` method does not correctly handle the scenario where multiple searches are initiated and completed out of order.\n\nHere's the issue with the current implementation:\n\n1. **Request Numbering**: Each search increments `_request`, but it does not reset or adjust `_request` when a search completes. This means that if a new search starts before the previous one completes, the new search will have a higher `_request` number than the previous one, which could cause the wrong search result to be stored in `result`.\n\n2. **Completion Check**: The check `"
+    },
+    {
+      "id": "offline_clean",
+      "reference_loss": 3.385113477706909,
+      "reference": "No defect found: successful refresh updates the cache, failures use it, and failures without cache propagate.",
+      "expected_behavior": "Every successful fetch replaces the cached value. A failed fetch returns the latest cache, or propagates the error if no cache exists.",
+      "has_defect": false,
+      "generated_tokens": 128,
+      "generation_limit_reached": true,
+      "response": "The provided code appears to correctly implement the required behavior. Here's a breakdown of how it works:\n\n1. **Cache Management**: The `OfflineRepository` class has a single field `cached` which stores the last successfully fetched value.\n\n2. **Fetching Data**:\n   - The `load` method takes a function `fetch` that performs the actual data fetching.\n   - It attempts to call `fetch()` and store the result in `cached`.\n   - If the fetch is successful, it updates the cache with the new value and returns it.\n   - If the fetch fails, it checks if there is a cached value. If"
+    },
+    {
+      "id": "offline_stale",
+      "reference_loss": 3.7960617542266846,
+      "reference": "A successful refresh leaves an old cached value in place. Assign cached = fresh so a later offline request returns the latest successful result.",
+      "expected_behavior": "Every successful fetch replaces the cached value. A failed fetch returns the latest cache, or propagates the error if no cache exists.",
+      "has_defect": true,
+      "generated_tokens": 128,
+      "generation_limit_reached": true,
+      "response": "The provided code has a logical flaw in its implementation of the `load` method. Specifically, it does not correctly handle the case where a fetch operation fails and there is no cached value available.\n\nHere's the issue with the current implementation:\n\n1. **Cache Update Logic**: The line `cached ??= fresh;` only updates the cache if `cached` is currently `null`. This means that if `cached` already has a value, it will not be updated even if the fetch operation succeeds.\n\n2. **Error Handling**: When an exception occurs during the fetch operation, the code checks if `cached` is not `null`"
+    }
+  ]
+}

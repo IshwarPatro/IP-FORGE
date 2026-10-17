@@ -11,7 +11,18 @@ from forge.api.main import app, _governance_sessions
 from forge.orchestrator.state import AgentState
 
 
-def test_governance_decision_approve():
+@pytest.fixture(autouse=True)
+def isolated_sessions():
+    _governance_sessions.clear()
+    yield
+    _governance_sessions.clear()
+
+
+def test_governance_decision_approve(monkeypatch):
+    from forge.mcp.fs_tools import ToolResult
+    server = MagicMock()
+    server.call_tool.return_value = ToolResult(success=True, output="test commit")
+    monkeypatch.setattr("forge.api.main.get_mcp_server", lambda: server)
     """Verify human engineer can approve an autonomous task Pull Request."""
     client = TestClient(app)
     sess_id = "test_approval_101"
@@ -68,13 +79,14 @@ def test_governance_decision_reject_with_feedback():
 
 def test_list_governance_sessions():
     """Verify GET /governance/sessions returns history of all sessions."""
+    _governance_sessions["list_fixture"] = {"session_id": "list_fixture"}
     client = TestClient(app)
     res = client.get("/governance/sessions")
 
     assert res.status_code == 200
     data = res.json()
     assert isinstance(data, list)
-    assert any(s["session_id"] == "test_approval_101" for s in data)
+    assert any(s["session_id"] == "list_fixture" for s in data)
 
 
 def test_execute_task_stream_sse_endpoint(monkeypatch):

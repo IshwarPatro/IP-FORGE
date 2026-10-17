@@ -1,0 +1,9 @@
+{
+  "archive": "data/flutter-pilot-run-01.zip",
+  "sha256": "1030244dc4c33c8809151b0534c4a776d9197bebda0534e81e2b0fc8fa4b7124",
+  "zip_integrity": "passed",
+  "required_files_present": true,
+  "remote_report_status": "pipeline_passed",
+  "remote_reload_verified": true,
+  "limitation": "Archive checked locally; model inference not rerun locally. Pilot does not establish review accuracy."
+}

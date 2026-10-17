@@ -42,3 +42,7 @@ yarn-error.log*
 .coverage
 htmlcov/
 .pytest_cache/
+
+# Flutter fixture generated state
+.dart_tool/
+.flutter-plugins-dependencies

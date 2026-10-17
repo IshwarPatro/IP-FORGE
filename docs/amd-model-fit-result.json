@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "model": "Qwen/Qwen2.5-Coder-7B-Instruct",
+  "tokens": 128,
+  "batch_size": 1,
+  "limitation": "Synthetic capacity test only; no Flutter training or accuracy evaluation.",
+  "gpu": "AMD Radeon Pro W7900D",
+  "torch": "2.13.0+rocm10.0.0",
+  "revision": "c03e6d358207e414f1eca0bb1891e29f1db0e242",
+  "weight_gib": 14.19,
+  "disk_free_gib": 24.82,
+  "loss": 13.87897,
+  "trainable_parameters": 2523136,
+  "step_seconds": 0.88,
+  "seconds": 301.76,
+  "peak_allocated_gib": 14.522,
+  "peak_reserved_gib": 14.6
+}
