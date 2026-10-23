@@ -1,0 +1,56 @@
+{
+  "healthy": {
+    "exit_code": 0,
+    "report": {
+      "schema_version": 1,
+      "workspace": "/private/var/folders/gc/bxj9s94579s3mpsfv6966vq80000gn/T/forge-alpha-flutter-5nrqu41u/app",
+      "tested_revision": null,
+      "checks": [
+        {
+          "name": "analyze",
+          "status": "passed",
+          "summary": "No analyzer issues found",
+          "findings": []
+        },
+        {
+          "name": "unit_widget",
+          "status": "passed",
+          "summary": "All tests passed successfully",
+          "findings": []
+        }
+      ]
+    }
+  },
+  "missing_notification": {
+    "exit_code": 1,
+    "report": {
+      "schema_version": 1,
+      "workspace": "/private/var/folders/gc/bxj9s94579s3mpsfv6966vq80000gn/T/forge-alpha-flutter-5nrqu41u/app",
+      "tested_revision": null,
+      "checks": [
+        {
+          "name": "analyze",
+          "status": "passed",
+          "summary": "No analyzer issues found",
+          "findings": []
+        },
+        {
+          "name": "unit_widget",
+          "status": "failed",
+          "summary": "One or more Flutter widget/unit tests failed",
+          "findings": [
+            {
+              "rule_id": "test.assertion_failure",
+              "severity": "error",
+              "message": "One or more tests failed during execution",
+              "evidence": "Expected: <1>\nActual: <0>",
+              "evidence_kind": "reproduced_failure",
+              "file": null,
+              "line": null
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

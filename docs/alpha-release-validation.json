@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0a1",
+  "date": "2026-10-23",
+  "unit_tests_passed": 49,
+  "installed_wheel_sdk_smoke": "passed",
+  "raw_stdout_jsonrpc": "passed",
+  "pip_check": "passed",
+  "sdk_version": "1.30.0",
+  "environment": "macOS arm64 Python 3.12.7",
+  "sha256": {
+    "ip_forge-0.2.0a1.tar.gz": "b6ea43ade8260a3898381efe3d7a85341cdeb733d7da6b4b0d9a85862b0d60ef",
+    "ip_forge-0.2.0a1-py3-none-any.whl": "f8d0a999a56fb2b31e0c7e0e400c4ddc843dc5903a58e1a176407edbf99a7af2"
+  },
+  "not_verified": [
+    "GitHub hosted CI",
+    "two desktop hosts",
+    "remote publication"
+  ],
+  "installed_wheel_flutter_acceptance": "healthy exit 0; seeded missing notification exit 1"
+}

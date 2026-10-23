@@ -1,6 +1,3 @@
-"""
-IP FORGE: Federated Orchestrator for Reliable Generation & Engineering
-Staff-level AI Software Engineering Agent System.
-"""
+"""IP FORGE Flutter review tools; legacy modules are experimental."""
 
-__version__ = "0.1.0"
+__version__ = "0.2.0a1"

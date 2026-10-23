@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 from forge.mcp.fs_tools import FilesystemTools, ToolResult
 from forge.mcp.terminal_tools import TerminalTools
 from forge.mcp.git_tools import GitTools
+from forge.mcp.flutter_tools import FlutterMCPTools
 from forge.config import setup_logger
 
 logger = setup_logger("forge.mcp.server")
@@ -27,11 +28,13 @@ class MCPServer:
         self,
         fs_tools: Optional[FilesystemTools] = None,
         terminal_tools: Optional[TerminalTools] = None,
-        git_tools: Optional[GitTools] = None
+        git_tools: Optional[GitTools] = None,
+        flutter_tools: Optional[FlutterMCPTools] = None,
     ):
         self.fs = fs_tools or FilesystemTools()
         self.terminal = terminal_tools or TerminalTools()
         self.git = git_tools or GitTools()
+        self.flutter = flutter_tools or FlutterMCPTools()
 
         self._tools: Dict[str, Callable[..., ToolResult]] = {}
         self._schemas: Dict[str, ToolDefinition] = {}
@@ -148,6 +151,46 @@ class MCPServer:
                     "message": {"type": "string", "description": "Descriptive commit message"}
                 },
                 "required": ["message"]
+            }
+        )
+
+        # Flutter: inspect_flutter_project
+        self.register_tool(
+            name="inspect_flutter_project",
+            func=self.flutter.inspect_flutter_project,
+            description="Inspects Flutter/Dart project structure, detected state packages, platforms, and test suites.",
+            parameters={
+                "type": "object",
+                "properties": {
+                    "directory": {"type": "string", "description": "Target Flutter project root directory (default '.')", "default": "."}
+                }
+            }
+        )
+
+        # Flutter: run_flutter_checks
+        self.register_tool(
+            name="run_flutter_checks",
+            func=self.flutter.run_flutter_checks,
+            description="Runs policy-governed Flutter static analysis and widget/unit test suites.",
+            parameters={
+                "type": "object",
+                "properties": {
+                    "directory": {"type": "string", "description": "Target Flutter project root directory (default '.')", "default": "."},
+                    "checks": {"type": "array", "items": {"type": "string"}, "description": "Optional list of checks to run (e.g. ['analyze', 'unit_widget'])"}
+                }
+            }
+        )
+
+        # Flutter: get_flutter_report
+        self.register_tool(
+            name="get_flutter_report",
+            func=self.flutter.get_report,
+            description="Retrieves the most recent review from this server session without rerunning checks. Run run_flutter_checks first.",
+            parameters={
+                "type": "object",
+                "properties": {
+                    "directory": {"type": "string", "description": "Target Flutter project root directory (default '.')", "default": "."}
+                }
             }
         )
 

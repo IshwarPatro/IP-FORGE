@@ -46,3 +46,11 @@ htmlcov/
 # Flutter fixture generated state
 .dart_tool/
 .flutter-plugins-dependencies
+
+# Local Apple Silicon training environment
+.venv-mlx/
+
+# Local packaging artifacts
+*.egg-info/
+build/
+dist/
