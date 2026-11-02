@@ -19,7 +19,7 @@ def test_test_agent_parses_pytest_success():
     sample_stdout = """
 ============================= test session starts ==============================
 platform darwin -- Python 3.12.7, pytest-8.3.3, pluggy-1.5.0
-rootdir: /Users/ishwar/Desktop/AMD Hackerthon/tests/dummy_repo
+rootdir: /workspace/tests/dummy_repo
 collected 4 items
 
 tests/test_api.py ....                                                   [100%]
