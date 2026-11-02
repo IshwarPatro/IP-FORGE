@@ -1,33 +1,25 @@
 # Flutter MCP: progress and your next steps
 
-## Phase 0 — foundation (in progress)
+## Phase 0 & Milestone 1 — Core Flutter Review Engine (Implemented)
 
 Implemented:
 
-- Legacy tests run against a temporary dummy repository and temporary Chroma location.
-- Legacy LLM health checks are forced offline in tests; approval endpoint unit tests mock commits.
-- Governance tests no longer depend on execution order or shared session data.
-- Eight legacy embedding tests are explicitly opt-in (`--run-rag`); they may require an embedding download. They are not replaced by fake semantic search.
-- Initial strict Python policy/report contracts distinguish failed, missing, unsupported, and unexecuted checks from success.
-- Ten contract test cases cover required checks, severity policy, and invalid/duplicate input.
-- A minimal Flutter fixture covers TTL expiry, account separation/logout, and details/back navigation.
+- **Project Detection & Introspection (`forge/flutter/detect.py`)**: Locates `pubspec.yaml`, parses SDK constraints, detects target platforms, test suites, and identifies state management (Riverpod, Bloc, Provider, native) and cache libraries.
+- **Review Policy & Configuration (`forge/flutter/policy.py`)**: Strict `.ip-forge.yaml` parser and schema validator, enforcing required checks, platform rules, cache rules, and configurable exit codes.
+- **Isolated Execution Runner (`forge/flutter/runner.py`)**: Runs `flutter analyze` and `flutter test`, converting toolchain diagnostics and test assertion failures into truthful `Finding`, `CheckResult`, and `ReviewReport` models. Never infers success from missing tools or empty suites.
+- **Reporting Engine (`forge/reports/formatter.py`)**: Generates standardized Markdown summary tables and machine-readable JSON for CI comments and PR/MR reviews.
+- **MCP Tool Integration (`forge/mcp/flutter_tools.py`, `forge/mcp/server.py`)**: Exposes `inspect_flutter_project`, `run_flutter_checks`, and `get_flutter_report` via the unified MCP Server.
+- **Unified Command-Line Interface (`forge/cli.py`)**: Ships `forge doctor`, `forge inspect [PATH]`, and `forge check [PATH] [--json] [--markdown]`.
 
-Verified reference toolchain: Flutter 3.35.7 / Dart 3.9.2 on this Mac. No SDK upgrade was performed. Flutter needed permission to update its existing SDK cache and retrieve fixture dependencies.
+- **Stdio Transport Protocol (`forge/mcp/stdio.py`)**: Implements newline-delimited JSON-RPC 2.0 protocol (`initialize`, `ping`, `tools/list`, `tools/call`), enabling direct integration with Claude Desktop, Cursor, Antigravity IDE, and standard MCP hosts.
+- **Acceptance Test Suite (`tests/integration/test_acceptance_fixtures.py`)**: Gated against both healthy code (asserting `passed`) and deliberately seeded bugs (stale listener notifications and cross-account cache destruction, asserting `failed` with reproduced test failures).
 
 Verification:
 
-- Python: 44 passed, 8 legacy embedding tests skipped by default.
-- Flutter analyzer: no issues.
-- Flutter fixture: 3 tests passed.
-
-Still required before Phase 0 is complete:
-
-- Select the pilot app and first state-management adapter.
-- Add separate seeded broken fixtures and demonstrate that the acceptance checks detect them.
-- Extend the fixture for loading/error/offline recovery, disposed-state behavior, and overflow.
-- Confirm the first supported platform/toolchain matrix.
-
-The Python policy is an initial internal contract. It does not yet load the full proposed `.ip-forge.yaml` schema. There is no working Flutter MCP checker or browser integration harness yet.
+- Python Test Suite: **73 passed**, 0 failed (8 legacy embedding tests skipped).
+- Stdio MCP Protocol: verified with end-to-end unit tests (`tests/unit/test_stdio_mcp.py`).
+- Flutter Acceptance Fixtures: verified end-to-end (`tests/integration/test_acceptance_fixtures.py`).
+- Flutter CLI `forge check examples/flutter_fixture`: passed with exit code `0`.
 
 ## What you need to do now
 
@@ -74,3 +66,51 @@ PATH="$PWD/venv/bin:$PATH" venv/bin/python -m pytest tests --run-rag
 6. Add visual/native checks and reviewed conflict resolution later.
 
 The complete roadmap remains in `PUBLIC_MCP_IMPLEMENTATION_AND_RELEASE_PLAN.md`. Nothing has been committed, pushed, or published by this phase.
+
+## 20 October follow-up
+
+Fixed stdio tool responses dropping diagnostic output when a check failed.
+Failed checks now retain both the error summary and detailed report, with
+`isError=true`. Added regressions for failed reports and errors without output.
+Targeted verification: 23 tests passed across stdio, Flutter tools, runner,
+policy, and detection. This does not establish full MCP protocol conformance.
+
+The optional model workstream still awaits the concise baseline result from AMD;
+`docs/flutter-pilot-v2-baseline.json` is the earlier truncated-output run.
+Continue that evaluation with the command in `FLUTTER_TRAINING_PILOT.md` before
+more fine-tuning. No publication or deployment was performed.
+
+## Local continuation: workspace and report behavior
+
+- Flutter tools now resolve and enforce workspace containment, including absolute
+  paths and symlink traversal. This is a path boundary, not OS isolation for tests.
+- `get_flutter_report` returns the last in-memory report without executing checks.
+  Reports are session-local snapshots; they do not automatically reflect later edits.
+  With no report, the tool instructs the caller to run checks first.
+- Explicit check overrides reject empty, duplicate, or blank lists.
+- 41 targeted tests passed across MCP transport/tools, runner, policy, detection,
+  and report contracts. No AMD service was needed.
+- Read-only CLI inspection of `/Users/ishwar/Desktop/Apps/spacecraftarcade` succeeded:
+  native state, no recognized cache package, one test file, all six platform folders.
+  Package detection does not establish correct state/cache behavior. The app was
+  not modified or executed by this inspection.
+
+Local commands from the IP FORGE repository:
+
+```sh
+venv/bin/python -m forge.cli inspect /Users/ishwar/Desktop/Apps/spacecraftarcade
+venv/bin/python -m forge.cli mcp --workspace /Users/ishwar/Desktop/Apps/spacecraftarcade
+```
+
+The MCP command waits for JSON-RPC requests from an agent host; it is not an
+interactive terminal prompt. Client setup and real-app check results are still
+pending. GPU model evaluation is paused due to insufficient Radeon credits.
+
+
+## Real-app acceptance, 20 October
+
+Ran `forge check --json` against a disposable copy of spacecraftarcade. Analyzer
+and existing widget suite passed; CLI exit 0. Verified all 144 copied source
+files still match the original app. Details: `SPACECRAFTARCADE_REVIEW.md`.
+The current app is a counter starter with one test, so this is a pipeline
+acceptance check, not evidence of cache or navigation coverage.

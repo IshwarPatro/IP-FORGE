@@ -11,6 +11,7 @@ python-multipart>=0.0.9
 pydantic>=2.7.0
 pydantic-settings>=2.2.0
 python-dotenv>=1.0.1
+pyyaml>=6.0.1
 
 # Vector DB & Embeddings (Phase 1 RAG)
 chromadb>=0.5.0

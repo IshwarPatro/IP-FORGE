@@ -1,6 +1,6 @@
 # Initial GitHub alpha: 0.2.0a1
 
-Prepared 23 October 2026. This is a release candidate, not evidence of publication.
+Updated 24 October 2026. Alpha source is published on the release branch; no tagged release yet.
 
 ## Included
 
@@ -45,10 +45,23 @@ failed-check reports and cached retrieval; raw stdout JSON-RPC framing; pip chec
 Archives exclude model/data/environment artifacts. SDK tested: 1.30.0.
 
 Artifacts are in `dist/`; hashes and limitations are recorded in
-[alpha-release-validation.json](alpha-release-validation.json). GitHub hosted CI,
-two desktop hosts and remote publication are not yet verified.
+[alpha-release-validation.json](alpha-release-validation.json). GitHub hosted CI passed all five jobs. Two desktop hosts and a tagged release remain unverified.
 
 Installed-wheel Flutter acceptance also passed: a disposable healthy fixture
 returned exit 0; removing notifyListeners reproduced a widget failure with exit 1.
 See [acceptance evidence](alpha-flutter-acceptance.json). This candidate is ready for contributor testing,
 not a claim that the full product is finished.
+
+
+## GitHub verification — 24 October 2026
+
+Published commit: `022c9cabbb827f08d36b10531c26f96600a19810` on
+`release/flutter-alpha-0.2.0a1`.
+[CI run](https://github.com/IshwarPatro/IP-FORGE/actions/runs/39996995988):
+all four Linux/macOS Python 3.11/3.12 package jobs and the Linux Flutter
+acceptance job completed successfully. No merge or tag was created.
+
+Next: verify in two desktop hosts, then review the branch for a GitHub prerelease.
+
+Installation from the exact GitHub commit into the isolated Python 3.12 test
+environment passed, followed by installed CLI and SDK-client smoke checks.

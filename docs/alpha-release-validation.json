@@ -12,9 +12,15 @@
     "ip_forge-0.2.0a1-py3-none-any.whl": "f8d0a999a56fb2b31e0c7e0e400c4ddc843dc5903a58e1a176407edbf99a7af2"
   },
   "not_verified": [
-    "GitHub hosted CI",
     "two desktop hosts",
-    "remote publication"
+    "tagged release",
+    "PyPI/registry publication"
   ],
-  "installed_wheel_flutter_acceptance": "healthy exit 0; seeded missing notification exit 1"
+  "installed_wheel_flutter_acceptance": "healthy exit 0; seeded missing notification exit 1",
+  "github_ci": {
+    "run_url": "https://github.com/IshwarPatro/IP-FORGE/actions/runs/39996995988",
+    "commit": "022c9cabbb827f08d36b10531c26f96600a19810",
+    "jobs_passed": 5
+  },
+  "remote_commit_install": "passed in isolated Python 3.12 environment; SDK smoke passed"
 }

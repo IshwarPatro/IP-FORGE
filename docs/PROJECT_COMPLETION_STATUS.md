@@ -5,8 +5,9 @@ percentage points). The initial alpha is deliberately narrower than that MVP.
 
 The alpha candidate now has a lightweight wheel/source build, Flutter-only SDK
 transport, opt-in execution, source-install instructions, license and packaging CI.
-49 core/regression tests, installed-wheel SDK checks and healthy/broken Flutter fixture checks pass locally. No GitHub release
-has been published; hosted CI and desktop-host acceptance remain unverified.
+49 core/regression tests, installed-wheel SDK checks and healthy/broken Flutter fixture checks pass locally. Alpha source is published on branch release/flutter-alpha-0.2.0a1. All five
+hosted CI jobs and installation from the exact remote commit passed on 24 October.
+Desktop-host acceptance and a tagged release remain unverified.
 
 Updated weighted estimate: core 20% × 85%; MCP 15% × 80%; state/cache rules
 20% × 10%; browser/execution 15% × 10%; PR/MR integration 15% × 0%; packaging

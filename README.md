@@ -6,18 +6,19 @@ This release does **not** certify state-management architecture or caching corre
 
 ## Install from source
 
-Requires Python 3.11+; install Flutter separately for `check`. macOS is the locally tested platform; CI configuration covers Python 3.11/3.12 on Linux and macOS. Other platforms are unverified.
+Requires Python 3.11+; install Flutter separately for `check`. macOS is the locally tested platform; Package CI passed on Python 3.11/3.12 on Linux and macOS; Flutter acceptance passed on Linux. Other platforms are unverified.
 
 ```sh
 git clone https://github.com/IshwarPatro/IP-FORGE.git
 cd IP-FORGE
+git checkout 022c9cabbb827f08d36b10531c26f96600a19810
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install .
 ip-forge --version
 ```
 
-These instructions use the release files in this checkout; until pushed, the remote may still contain the older prototype. No PyPI release is claimed. After publication, prefer a reviewed release tag/commit over a moving branch. `forge` remains an alias for `ip-forge`.
+The command checks out the CI-verified alpha commit; `main` still contains the older prototype. No tagged or PyPI release is claimed. `forge` remains an alias for `ip-forge`.
 
 Do not install `requirements.txt` for the alpha: that file serves the legacy application. The default package needs no GPU, model, database, dashboard or API key.
 
