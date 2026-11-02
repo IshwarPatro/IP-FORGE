@@ -7,15 +7,15 @@ To optimize cost and speed, IP FORGE operates on a hybrid local-cloud infrastruc
 * **Cloud Instance (AMD Developer Cloud):** Hosts the heavy-weight open-source models (e.g., Llama 3 70B) via vLLM on ROCm for massive context-window reasoning during full codebase RAG queries.
 
 ## 2. Tech Stack Core Components
-* **AI Orchestration:** Python 3.11+, FastAPI, LangChain/LlamaIndex.
+* **AI Orchestration:** Python 3.11+, FastAPI, Native OpenAI-compatible client (Ollama/vLLM).
 * **Vector Store:** ChromaDB (local persistent storage).
 * **State / Cache:** Redis (for session state between multi-agent loops) and PostgreSQL (for metadata/audit logs).
 * **Frontend Dashboard:** Next.js (TypeScript), TailwindCSS.
 * **Tooling Standard:** Model Context Protocol (MCP) Python SDK.
 
 ## 3. Local Environment Setup Steps
-1. **Python Virtual Env:** `python -m venv venv && source venv/bin/activate`
-2. **Install AI Core:** `pip install fastapi uvicorn chromadb langchain openai`
+1. **Python Virtual Env:** `python3.11 -m venv venv && source venv/bin/activate`
+2. **Install AI Core:** `pip install -r requirements.txt`
 3. **Install Local LLM:** Install Ollama and run `ollama run gemma:7b` (or equivalent) for local API fallback.
 4. **Database Setup:** Start PostgreSQL and Redis via Docker Compose.
    ```yaml

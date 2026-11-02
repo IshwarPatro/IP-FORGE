@@ -52,8 +52,8 @@ All foundational engineering specifications are organized in the [`docs/`](./doc
 ## 🚀 Getting Started
 
 ### Prerequisites
-* Python 3.11+
-* Node.js 18+ (Node 20+ recommended)
+* Python 3.11+ (Python 3.11 or 3.12 recommended)
+* Node.js 20.9+ (required for Next.js 16 & React 19)
 * Docker & Docker Compose (for Redis and PostgreSQL)
 * Ollama (local prototyping) or AMD Developer Cloud instance with ROCm + vLLM
 
@@ -63,15 +63,19 @@ All foundational engineering specifications are organized in the [`docs/`](./doc
 git clone https://github.com/IshwarPatro/IP-FORGE.git
 cd IP-FORGE
 
-# 2. Set up Python virtual environment
-python3 -m venv venv
+# 2. Set up Python virtual environment (ensure Python 3.11+ is used)
+# On macOS: brew install python@3.11
+python3.11 -m venv venv  # or python3 -m venv venv (if your default python3 is >= 3.11)
 source venv/bin/activate
 pip install -r requirements.txt
 
-# 3. Run complete automated test suite (42 tests across all phases)
+# 3. (Optional) Start Redis and PostgreSQL background containers
+docker compose up -d
+
+# 4. Run complete automated test suite (42 tests across all phases)
 pytest tests/ -v
 
-# 4. Run interactive CLI demos & benchmarks
+# 5. Run interactive CLI demos & benchmarks
 python scripts/demo_rag.py              # Phase 1: AST Codebase Intelligence
 python scripts/demo_planner.py          # Phase 2: Multi-Agent Reasoning DAG
 python scripts/demo_mcp.py              # Phase 3: Sandboxed MCP Tools
