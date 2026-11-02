@@ -4,12 +4,20 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ip-forge"
-version = "0.1.0"
-description = "Federated Orchestrator for Reliable Generation & Engineering"
+version = "0.2.0a1"
+description = "Local Flutter analysis and test tools for MCP agents"
 authors = [{ name = "Ishwar Patro" }]
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = [
+dependencies = ["pydantic>=2.7,<3", "pydantic-settings>=2.2,<3", "rich>=13.7,<15", "pyyaml>=6,<7", "mcp>=1.12,<2"]
+
+[project.scripts]
+forge = "forge.cli:main"
+ip-forge = "forge.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9", "build>=1,<2"]
+legacy = [
     "fastapi>=0.110.0",
     "uvicorn[standard]>=0.29.0",
     "pydantic>=2.7.0",
@@ -20,8 +28,20 @@ dependencies = [
     "sqlalchemy>=2.0.29",
     "asyncpg>=0.29.0",
     "psycopg2-binary>=2.9.9",
-    "rich>=13.7.1"
+    "rich>=13.7.1",
+    "pyyaml>=6.0.1"
 ]
+
+training = [
+    "torch>=2.0.0",
+    "transformers>=4.40.0",
+    "peft>=0.10.0",
+    "accelerate>=0.28.0",
+    "safetensors>=0.4.0"
+]
+
+[tool.setuptools.packages.find]
+include = ["forge*"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"
