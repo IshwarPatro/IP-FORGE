@@ -9,6 +9,10 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.venv*/
+
+# Package build artifacts
+*.egg-info/
 
 # Environment Variables & Secrets
 .env
