@@ -111,12 +111,3 @@ npm run dev
 
 ---
 
-## 🏆 Hackathon Alignment (Lablab x AMD AI Academy)
-* **Challenge 5 (Multi-Agent Software Engineering):** Autonomous specialized agents covering the full SDLC.
-* **Challenge 3 (Proprietary RAG):** ChromaDB-powered repository indexing with AST parsing.
-* **AMD Cloud GPU Acceleration:** ROCm-optimized vLLM deployment for large-context 70B reasoning.
-* **Human-in-the-Loop Governance:** Zero unapproved code commits via strict operator gates.
-
----
-**Lead Developer:** Ishwar Patro  
-**License:** MIT
